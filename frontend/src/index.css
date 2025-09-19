@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Sci-Fi Styling */
+@layer base {
+  body {
+    @apply bg-cosmic-void text-cosmic-cyan font-future;
+    background-image:
+      radial-gradient(2px 2px at 20px 30px, rgba(0, 255, 255, 0.3), transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(138, 43, 226, 0.2), transparent),
+      radial-gradient(1px 1px at 90px 40px, rgba(57, 255, 20, 0.1), transparent);
+    background-size: 100px 100px, 80px 80px, 60px 60px;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom Component Classes */
+@layer components {
+  /* Neon Button Styles */
+  .btn-neon {
+    @apply px-6 py-3 bg-transparent border-2 border-cosmic-cyan text-cosmic-cyan font-cyber font-bold uppercase tracking-wider rounded-cyber transition-all duration-300 hover:bg-cosmic-cyan hover:text-cosmic-void hover:shadow-lg;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+
+  .btn-neon:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(0, 255, 255, 0.1);
+    animation: pulse-neon 0.5s ease-in-out;
+  }
+
+  .btn-plasma {
+    @apply px-6 py-3 bg-gradient-to-r from-cosmic-plasma to-cosmic-energy text-cosmic-void font-cyber font-bold uppercase tracking-wider rounded-cyber transition-all duration-300 hover:shadow-lg;
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
+  }
+
+  .btn-plasma:hover {
+    box-shadow: 0 0 25px rgba(255, 107, 53, 0.7);
+    transform: translateY(-2px);
+  }
+
+  /* Holographic Card */
+  .card-holo {
+    @apply bg-cosmic-space bg-opacity-80 backdrop-blur-cyber border border-cosmic-cyan rounded-cyber p-6 shadow-lg transition-all duration-500;
+    background: linear-gradient(135deg,
+      rgba(26, 26, 46, 0.9) 0%,
+      rgba(17, 24, 39, 0.8) 50%,
+      rgba(10, 10, 10, 0.9) 100%);
+    border-image: linear-gradient(45deg, #00ffff, #8a2be2, #39ff14) 1;
+  }
+
+  .card-holo:hover {
+    @apply animate-hologram;
+    box-shadow:
+      0 0 30px rgba(0, 255, 255, 0.3),
+      0 0 60px rgba(138, 43, 226, 0.2),
+      inset 0 0 30px rgba(57, 255, 20, 0.1);
+    transform: translateY(-5px) rotateX(2deg);
+  }
+
+  /* Glowing Text Effects */
+  .text-glow {
+    text-shadow:
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor,
+      0 0 20px currentColor;
+  }
+
+  .text-cyber {
+    @apply font-cyber text-cosmic-cyan text-glow;
+  }
+
+  .text-matrix {
+    @apply font-matrix text-cosmic-neonGreen text-glow;
+  }
+
+  /* Power Type Styling */
+  .power-mental {
+    @apply text-cosmic-mental;
+    text-shadow: 0 0 10px rgba(157, 78, 221, 0.8);
+  }
+
+  .power-physical {
+    @apply text-cosmic-physical;
+    text-shadow: 0 0 10px rgba(247, 37, 133, 0.8);
+  }
+
+  .power-mystical {
+    @apply text-cosmic-mystical;
+    text-shadow: 0 0 10px rgba(76, 201, 240, 0.8);
+  }
+
+  .power-temporal {
+    @apply text-cosmic-temporal;
+    text-shadow: 0 0 10px rgba(114, 9, 183, 0.8);
+  }
+
+  /* Rarity Styling */
+  .rarity-common {
+    @apply text-cosmic-common border-cosmic-common;
+  }
+
+  .rarity-rare {
+    @apply text-cosmic-rare border-cosmic-rare;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .rarity-epic {
+    @apply text-cosmic-epic border-cosmic-epic;
+    animation: pulse-neon 1.5s ease-in-out infinite;
+  }
+
+  .rarity-legendary {
+    @apply text-cosmic-legendary border-cosmic-legendary;
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+
+  /* Navigation Styling */
+  .nav-cosmic {
+    @apply bg-cosmic-space bg-opacity-90 backdrop-blur-cyber border-b border-cosmic-cyan;
+    background: linear-gradient(90deg,
+      rgba(26, 26, 46, 0.95) 0%,
+      rgba(17, 24, 39, 0.9) 50%,
+      rgba(26, 26, 46, 0.95) 100%);
+  }
+
+  /* Form Styling */
+  .input-cyber {
+    @apply bg-cosmic-space bg-opacity-50 border border-cosmic-cyan rounded-cyber px-4 py-2 text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50 focus:outline-none focus:ring-2 focus:ring-cosmic-cyan focus:border-transparent;
+    backdrop-filter: blur(8px);
+  }
+
+  .input-cyber:focus {
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    animation: glow 0.3s ease-in-out;
+  }
+}
