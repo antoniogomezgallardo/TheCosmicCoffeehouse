@@ -1,15 +1,45 @@
-# ☕ The Cosmic Coffeehouse
+# 🚀 The Cosmic Coffeehouse
 
-> **Senior QA Engineer Interview Preparation Project**
-> A comprehensive e-commerce testing demonstration showcasing advanced QA engineering practices
+> **A Futuristic E-commerce Experience for Superpower Enhancement**
+> *Senior QA Engineer Interview Preparation Project*
 
-## 🎯 Project Overview
+Welcome to The Cosmic Coffeehouse - where science fiction meets caffeine! This is a comprehensive full-stack e-commerce application designed to demonstrate advanced QA engineering practices and modern web development technologies.
 
-This project demonstrates expertise in:
-- **Complete Testing Pyramid**: Unit, Integration, Contract, Component, E2E testing
-- **Modern Test Automation**: Playwright, Jest, Supertest, Pact, K6
-- **Quality Engineering**: Shift-left practices, CI/CD integration, monitoring
-- **DevOps Integration**: Docker, GitHub Actions, multi-cloud deployment strategies
+## 🌌 Project Overview
+
+The Cosmic Coffeehouse is a sci-fi themed e-commerce platform selling:
+- **Superpower Coffee Capsules**: Temporary enhancement capsules for mental, physical, mystical, and temporal abilities
+- **Futuristic Brewing Machines**: Advanced quantum-powered coffee machines from across the galaxy
+
+### 🎯 Purpose
+This project serves as a comprehensive demonstration for Senior QA Engineer interview preparation, showcasing:
+- Complete test automation frameworks
+- Quality assurance best practices
+- Modern full-stack development
+- CI/CD pipeline implementation
+- Risk-based testing strategies
+
+## 🛠️ Technology Stack
+
+### Frontend
+- **React 18** with TypeScript
+- **Vite** for blazing-fast development
+- **Tailwind CSS** with custom sci-fi design system
+- **React Router** for navigation
+- **Axios** for API communication
+
+### Backend
+- **Node.js** with Express framework
+- **TypeScript** for type safety
+- **MongoDB** with Mongoose ODM
+- **JWT** authentication with bcrypt
+- **Express middleware** for security
+
+### Infrastructure
+- **Docker** for MongoDB containerization
+- **Cross-platform scripts** for development
+- **ESLint & Prettier** for code quality
+- **Git Flow** methodology
 
 ## 🏗️ Architecture
 
@@ -17,46 +47,116 @@ This project demonstrates expertise in:
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   React + TS    │    │  Express + TS   │    │   MongoDB       │
 │   Frontend      │◄──►│   Backend       │◄──►│   Database      │
-│   Port: 3000    │    │   Port: 3001    │    │   Port: 27017   │
+│   Port: 5173    │    │   Port: 3000    │    │   Port: 27017   │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
          │                       │                       │
          └───────────────────────┼───────────────────────┘
                                  │
                     ┌─────────────────┐
-                    │   Monitoring    │
-                    │ Prometheus +    │
-                    │   Grafana       │
+                    │     Future      │
+                    │   QA Tooling    │
+                    │  (Next Phase)   │
                     └─────────────────┘
 ```
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- Docker & Docker Compose
+- Node.js (v18+)
+- Docker Desktop
 - Git
 
 ### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/antoniogomezgallardo/TheCosmicCoffeehouse.git
+   cd TheCosmicCoffeehouse
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start MongoDB with Docker**
+   ```bash
+   npm run start:mongo
+   ```
+
+4. **Start the development servers**
+   ```bash
+   npm run dev
+   ```
+
+5. **Access the application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:3000
+
+### 🎮 Development Commands
+
 ```bash
-# Clone and install
-git clone https://github.com/antoniogomezgallardo/TheCosmicCoffeehouse.git
-cd TheCosmicCoffeehouse
-npm run install:all
+# Development
+npm run dev              # Start both frontend and backend
+npm run start:mongo      # Start MongoDB container
+npm run stop             # Stop all development servers safely
+npm run restart          # Restart everything
 
-# Start with Docker (recommended)
-npm run docker:up
+# Building
+npm run build           # Build for production
+npm run preview         # Preview production build
 
-# Or start locally
-npm run dev
+# Code Quality
+npm run lint            # Run ESLint
+npm run format          # Format code with Prettier
+npm run type-check      # TypeScript validation
 ```
 
-### Access Points
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001
-- **Monitoring**: http://localhost:3002 (Grafana)
-- **Metrics**: http://localhost:9090 (Prometheus)
+## 📁 Project Structure
 
-## 🧪 Testing Strategy
+```
+TheCosmicCoffeehouse/
+├── frontend/                 # React TypeScript application
+│   ├── src/
+│   │   ├── components/      # Reusable UI components
+│   │   ├── pages/           # Route-based page components
+│   │   ├── contexts/        # React contexts (auth, cart)
+│   │   ├── services/        # API communication
+│   │   └── types/           # TypeScript definitions
+│   ├── public/              # Static assets
+│   └── package.json
+├── backend/                  # Express TypeScript API
+│   ├── src/
+│   │   ├── models/          # Mongoose schemas
+│   │   ├── routes/          # API endpoints
+│   │   ├── scripts/         # Database seeding
+│   │   └── types/           # TypeScript definitions
+│   └── package.json
+├── scripts/                  # Development utilities
+├── .claude/                  # Claude Code configuration
+└── docs/                     # Project documentation
+```
+
+## 🌟 Features
+
+### Current MVP Features
+- ✅ **User Authentication**: Registration, login, JWT-based auth
+- ✅ **Product Catalog**: Dynamic product listing with filtering
+- ✅ **Shopping Cart**: Add, remove, update quantities
+- ✅ **Sci-Fi Design System**: Custom Tailwind theme with animations
+- ✅ **Responsive Design**: Mobile-first approach
+- ✅ **API Integration**: Full REST API with MongoDB
+
+### 🔮 Upcoming Features (QA Phase)
+- 🔄 **Comprehensive Testing Suite**
+- 🔄 **CI/CD Pipeline**
+- 🔄 **Performance Monitoring**
+- 🔄 **Security Testing**
+- 🔄 **Bug Tracking System**
+
+## 🧪 Quality Assurance Strategy
+
+This project implements a comprehensive QA approach designed for interview demonstration:
 
 ### Test Pyramid Distribution
 ```
@@ -72,32 +172,71 @@ npm run dev
    Contract (10%)
 ```
 
-### Test Execution
-```bash
-# Run all tests
-npm test
+### Testing Pyramid
+- **Unit Tests**: Jest + React Testing Library (frontend), Jest + Supertest (backend)
+- **Integration Tests**: Supertest for API integration, MongoDB Memory Server for isolated DB tests
+- **Contract Testing**: Pact for consumer-driven contracts, JSON Schema validation
+- **E2E Tests**: Playwright with Page Object Model pattern, cross-browser testing
+- **Performance Tests**: K6 for load testing, Artillery as backup
+- **Security Tests**: OWASP ZAP integration, Snyk for dependency scanning
 
-# Individual test suites
-npm run test:unit          # Unit tests
-npm run test:integration   # Integration tests
-npm run test:e2e          # End-to-end tests
-npm run test:api          # API tests
-npm run test:performance  # Performance tests
-npm run test:security     # Security tests
+### Quality Gates
+- Code Coverage > 85%
+- Zero critical security vulnerabilities
+- Performance budget compliance
+- Accessibility standards (WCAG 2.1)
 
-# Coverage reports
-npm run coverage
+## 🗂️ Database Schema
+
+### Collections
+- **Users**: Authentication and user profiles
+- **Capsules**: Superpower coffee products
+- **Machines**: Brewing equipment
+- **Orders**: Purchase transactions
+- **Cart Items**: Shopping cart state
+
+### Sample Data
+The database is seeded with:
+- 4 unique superpower capsules (Mental, Physical, Mystical, Temporal)
+- 2 futuristic brewing machines
+- 2 test user accounts
+
+## 🔐 Environment Configuration
+
+### Required Environment Variables
+
+**Backend (.env)**
+```env
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/cosmic-coffeehouse
+JWT_SECRET=your-cosmic-secret-key
+JWT_EXPIRES_IN=15m
+NODE_ENV=development
 ```
 
-## 📊 Quality Metrics
+**Frontend (.env)**
+```env
+VITE_API_URL=http://localhost:3000
+```
 
-### Current Targets
-- **Unit Test Coverage**: >85%
-- **Integration Coverage**: >70%
-- **E2E Critical Paths**: 100%
-- **API Response Time**: <200ms
-- **Pipeline Success Rate**: >95%
-- **Flaky Test Rate**: <2%
+## 📊 API Documentation
+
+### Authentication Endpoints
+- `POST /auth/register` - User registration
+- `POST /auth/login` - User login
+- `GET /auth/profile` - Get user profile
+
+### Product Endpoints
+- `GET /capsules` - List all capsules
+- `GET /capsules/:id` - Get specific capsule
+- `GET /machines` - List all machines
+- `GET /machines/:id` - Get specific machine
+
+### Cart Endpoints
+- `GET /cart` - Get user's cart
+- `POST /cart/add` - Add item to cart
+- `PUT /cart/update` - Update cart item
+- `DELETE /cart/remove` - Remove cart item
 
 ## 🔄 Development Workflow (GitFlow)
 
@@ -126,44 +265,42 @@ git tag v1.0.0
 git push origin main --tags
 ```
 
-## 🏢 Enterprise Configurations
+## 🐛 Known Issues & QA Opportunities
 
-Ready-to-deploy configurations for:
-- **GitHub Actions** (implemented)
-- **Jenkins** (enterprise CI/CD)
-- **Azure DevOps** (Microsoft ecosystem)
-- **AWS CodeBuild** (cloud-native)
+The application currently has intentional issues to demonstrate QA processes:
+- Form validation edge cases
+- API error handling scenarios
+- Performance optimization opportunities
+- Accessibility improvements needed
 
-## 📈 Monitoring & Observability
+## 🛡️ Security
 
-- **Logs**: Winston + structured logging
-- **Metrics**: Prometheus + custom metrics
-- **Dashboards**: Grafana with QA-specific dashboards
-- **Alerts**: Performance and error rate monitoring
+- JWT token-based authentication
+- Password hashing with bcrypt
+- Input validation and sanitization
+- CORS configuration
+- Environment variable protection
 
-## 🛡️ Security & Compliance
+## 🤝 Contributing
 
-- **Static Analysis**: ESLint security rules
-- **Dependency Scanning**: Snyk integration
-- **Dynamic Testing**: OWASP ZAP integration
-- **Authentication**: JWT with secure practices
+This project is designed for interview demonstration. For development:
 
-## 📚 Documentation
+1. Create feature branch from `develop`
+2. Implement changes with tests
+3. Submit PR with comprehensive description
+4. Ensure all quality gates pass
 
-- [Quality Guardian Manifesto](./Quality-Guardian-Manifesto.md)
-- [Testing Principles](./Testing-Principles.md)
-- [QA Master Learning Guide](./QA-Master-Learning-OnePager.md)
-- [Interview Preparation Plan](./Senior-QA-Interview-Master-Plan.md)
+## 📝 License
 
-## 🎓 Learning Outcomes
+This project is created for interview preparation purposes.
 
-This project demonstrates:
-1. **Strategic QA Leadership**: Quality-first mindset and prevention over detection
-2. **Technical Excellence**: Modern tools and frameworks
-3. **Process Optimization**: Efficient testing strategies
-4. **Team Enablement**: Self-service testing and documentation
-5. **Business Value**: Metrics that matter and risk-based approaches
+## 📞 Support
+
+For questions about this project or QA demonstration:
+- Create GitHub Issues for bug reports
+- Use Discussions for general questions
+- Reference the `docs/` folder for detailed documentation
 
 ---
 
-**Built with ❤️ for quality engineering excellence**
+**Built with ⚡ by a passionate QA Engineer | Ready for interview demonstration**

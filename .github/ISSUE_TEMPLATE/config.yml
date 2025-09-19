@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/antoniogomezgallardo/TheCosmicCoffeehouse/tree/main/docs
+    about: Check our comprehensive documentation for guides, test plans, and QA processes
+  - name: 💬 Discussions
+    url: https://github.com/antoniogomezgallardo/TheCosmicCoffeehouse/discussions
+    about: Ask questions, share ideas, or discuss features with the community
+  - name: 🎓 QA Learning Resources
+    url: https://github.com/antoniogomezgallardo/TheCosmicCoffeehouse/blob/main/docs/QA-Master-Learning-OnePager.md
+    about: Access QA engineering learning materials and best practices
+  - name: 📋 Senior QA Interview Prep
+    url: https://github.com/antoniogomezgallardo/TheCosmicCoffeehouse/blob/main/Senior-QA-Interview-Master-Plan.md
+    about: Interview preparation guide and demonstration features

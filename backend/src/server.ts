@@ -111,14 +111,14 @@ const startServer = async () => {
       console.log(`
 ╔══════════════════════════════════════════════════════════╗
 ║                                                          ║
-║     ☕ THE COSMIC COFFEEHOUSE API SERVER ☕             ║
+║     ☕ THE COSMIC COFFEEHOUSE API SERVER ☕               ║
 ║                                                          ║
-║     🚀 Server running on port ${PORT}                      ║
-║     🌌 Environment: ${process.env.NODE_ENV || 'development'}                     ║
+║     🚀 Server running on port ${PORT}                       ║
+║     🌌 Environment: ${process.env.NODE_ENV || 'development'}                 ║
 ║     ⚡ Power Level: MAXIMUM                             ║
 ║     🔮 Superpower Coffee API: ONLINE                    ║
 ║                                                          ║
-║     Ready to serve superpowers in coffee form!          ║
+║     Ready to serve superpowers in coffee form!           ║
 ║                                                          ║
 ╚══════════════════════════════════════════════════════════╝
       `);

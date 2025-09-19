@@ -1,0 +1,210 @@
+name: ✨ Feature Request
+description: Suggest a new feature for The Cosmic Coffeehouse
+title: "[FEATURE] "
+labels: ["enhancement", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🌟 Feature Request for The Cosmic Coffeehouse
+
+        We love hearing about ideas to improve our intergalactic e-commerce platform! Please provide detailed information about your feature suggestion.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component Area
+      description: Which part of the application would this feature affect?
+      options:
+        - Authentication & User Management
+        - Product Catalog & Search
+        - Shopping Cart & Checkout
+        - User Interface & Design
+        - Performance & Optimization
+        - Security & Privacy
+        - API & Backend
+        - Quality Assurance & Testing
+        - Documentation
+        - DevOps & Infrastructure
+        - Other
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature?
+      options:
+        - P1 - High (Critical business need, user-requested)
+        - P2 - Medium (Important improvement, nice to have)
+        - P3 - Low (Minor enhancement, future consideration)
+      default: 1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Estimated Effort
+      description: How complex do you think this feature would be? (rough estimate)
+      options:
+        - Small (1-3 days of development)
+        - Medium (1-2 weeks of development)
+        - Large (3-4 weeks of development)
+        - Extra Large (1+ months of development)
+        - Unknown (needs investigation)
+      default: 4
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Feature Summary
+      description: Brief, clear description of the feature request
+      placeholder: "Describe the feature you'd like to see..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? What's the current pain point?
+      placeholder: "Currently, users experience... / It's difficult to... / There's no way to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Detailed description of how you envision this feature working
+      placeholder: |
+        Describe your proposed solution:
+        - What would the user see?
+        - How would they interact with it?
+        - What would happen behind the scenes?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What other solutions have you considered?
+      placeholder: "Alternative 1... Alternative 2... Pros and cons of each..."
+
+  - type: textarea
+    id: user_stories
+    attributes:
+      label: User Stories
+      description: How would different users interact with this feature?
+      placeholder: |
+        - As a customer, I want to... so that I can...
+        - As an admin, I want to... so that I can...
+        - As a QA engineer, I want to... so that I can...
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What would define this feature as complete and working?
+      placeholder: |
+        - [ ] Criterion 1...
+        - [ ] Criterion 2...
+        - [ ] Criterion 3...
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups/Wireframes
+      description: Visual representation of the feature (attach images or describe layout)
+      placeholder: "Attach mockups, wireframes, or describe the visual layout..."
+
+  - type: dropdown
+    id: user_impact
+    attributes:
+      label: User Impact
+      description: How many users would benefit from this feature?
+      options:
+        - All users (affects everyone using the platform)
+        - Most users (affects majority of active users)
+        - Some users (affects specific user segments)
+        - Few users (affects edge cases or admin users)
+        - Internal only (development/QA/admin tooling)
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical_considerations
+    attributes:
+      label: Technical Considerations
+      description: Any technical aspects to consider?
+      placeholder: |
+        - Database changes needed
+        - API modifications required
+        - Performance implications
+        - Security considerations
+        - Browser/device compatibility
+        - Third-party integrations
+
+  - type: textarea
+    id: qa_considerations
+    attributes:
+      label: QA/Testing Considerations
+      description: What testing would be needed for this feature?
+      placeholder: |
+        - New test cases required
+        - Performance testing needs
+        - Security testing requirements
+        - Browser/device testing scope
+        - Regression testing impact
+
+  - type: checkboxes
+    id: feature_type
+    attributes:
+      label: Feature Type
+      description: What type of feature is this? (select all that apply)
+      options:
+        - label: New functionality
+        - label: Enhancement to existing feature
+        - label: Performance improvement
+        - label: User experience improvement
+        - label: Developer/QA tooling
+        - label: Security enhancement
+        - label: Accessibility improvement
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify you have completed these steps
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have provided clear problem statement and solution
+          required: true
+        - label: I have considered the impact on users and testing
+          required: true
+        - label: I have estimated the effort and priority appropriately
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## 🚀 Next Steps
+
+        Once submitted, this feature request will be:
+        1. **Reviewed** by the product team
+        2. **Prioritized** based on business value and effort
+        3. **Planned** into appropriate development sprint
+        4. **Designed** with detailed specifications
+        5. **Developed** with comprehensive testing
+        6. **Released** with proper documentation
+
+        Thank you for helping us make The Cosmic Coffeehouse even better! ✨

@@ -1,0 +1,176 @@
+name: 🐛 Bug Report
+description: Report a bug in The Cosmic Coffeehouse
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🚀 Welcome to The Cosmic Coffeehouse Bug Reporting System!
+
+        Thank you for helping us improve our intergalactic e-commerce platform. Please provide detailed information about the bug you encountered.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the application is affected?
+      options:
+        - Authentication (Login/Register/Profile)
+        - Product Catalog (Capsules/Machines)
+        - Shopping Cart
+        - Navigation/UI
+        - API/Backend
+        - Performance
+        - Security
+        - Other
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is this bug?
+      options:
+        - S1 - Critical (System crash, data loss, security breach)
+        - S2 - High (Major functionality broken, significant impact)
+        - S3 - Medium (Functionality partially broken, workaround available)
+        - S4 - Low (Minor issues, cosmetic problems)
+      default: 2
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgent is this fix?
+      options:
+        - P0 - Critical (Fix immediately, blocks release)
+        - P1 - High (Fix before next release)
+        - P2 - Medium (Fix in upcoming releases)
+        - P3 - Low (Fix when time permits)
+      default: 2
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Where did you encounter this bug?
+      placeholder: "e.g., Development, Staging, Production"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Bug Summary
+      description: Brief, clear description of the bug (1-2 sentences)
+      placeholder: "Describe what went wrong..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the issue
+      placeholder: |
+        1. Go to...
+        2. Click on...
+        3. Enter...
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen under normal circumstances?
+      placeholder: "Describe the expected behavior..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happens (the bug)?
+      placeholder: "Describe what actually happened..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: browser_details
+    attributes:
+      label: Browser/Environment Details
+      description: Technical details about your environment
+      placeholder: |
+        - Operating System: (Windows/macOS/Linux + version)
+        - Browser: (Chrome/Firefox/Safari/Edge + version)
+        - Device: (Desktop/Tablet/Mobile)
+        - Screen Resolution: (if UI-related)
+        - Application Version: (commit hash if known)
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional Information
+      description: Any other relevant information
+      placeholder: |
+        - Frequency: Always/Sometimes/Rare
+        - Console errors (if any)
+        - Network errors (if any)
+        - Screenshots or videos
+        - Workaround (if available)
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: How often does this occur?
+      options:
+        - Always (100% of the time)
+        - Often (>75% of the time)
+        - Sometimes (25-75% of the time)
+        - Rarely (<25% of the time)
+        - Once (only happened once)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify you have completed these steps
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have provided clear steps to reproduce the issue
+          required: true
+        - label: I have included environment details
+          required: true
+        - label: I have classified severity and priority appropriately
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## 🔬 Next Steps
+
+        Once submitted, this bug will be:
+        1. **Triaged** within 24 hours (P0 issues within 1 hour)
+        2. **Assigned** to appropriate team member
+        3. **Investigated** and reproduced
+        4. **Fixed** according to priority level
+        5. **Verified** before closure
+
+        Thank you for contributing to The Cosmic Coffeehouse quality! 🌟

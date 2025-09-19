@@ -1,0 +1,243 @@
+name: 🧪 Test Case / QA Issue
+description: Report testing issues or request new test cases
+title: "[TEST] "
+labels: ["testing", "qa", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🔬 Quality Assurance & Testing
+
+        Use this template to report testing-related issues, request new test cases, or suggest testing improvements for The Cosmic Coffeehouse.
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      description: What type of testing issue is this?
+      options:
+        - Test Case Request (new test case needed)
+        - Test Case Update (existing test case needs modification)
+        - Test Environment Issue (environment setup/configuration problem)
+        - Test Data Issue (test data problems or requests)
+        - Test Automation Issue (automation script problems)
+        - Testing Process Improvement (process enhancement suggestion)
+        - Test Coverage Gap (area lacking adequate test coverage)
+        - Performance Testing Issue (performance test related)
+        - Security Testing Issue (security test related)
+        - Accessibility Testing Issue (accessibility test related)
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: test_level
+    attributes:
+      label: Test Level
+      description: What level of testing does this relate to?
+      options:
+        - Unit Testing
+        - Integration Testing
+        - System Testing
+        - End-to-End Testing
+        - API Testing
+        - Performance Testing
+        - Security Testing
+        - Accessibility Testing
+        - Manual Testing
+        - Exploratory Testing
+        - All Levels
+      default: 2
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component Area
+      description: Which component does this testing issue relate to?
+      options:
+        - Authentication & User Management
+        - Product Catalog & Search
+        - Shopping Cart & Checkout
+        - User Interface & Design
+        - API & Backend Services
+        - Database & Data Management
+        - Performance & Scalability
+        - Security & Privacy
+        - Cross-Browser Compatibility
+        - Mobile Responsiveness
+        - Accessibility
+        - DevOps & CI/CD
+        - Test Framework & Tools
+        - All Components
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgent is this testing issue?
+      options:
+        - P0 - Critical (Blocking testing/release)
+        - P1 - High (Important for current sprint)
+        - P2 - Medium (Should be addressed soon)
+        - P3 - Low (Nice to have improvement)
+      default: 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Issue Summary
+      description: Brief description of the testing issue or request
+      placeholder: "Describe the testing issue or request..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_situation
+    attributes:
+      label: Current Situation
+      description: What is the current state of testing for this area?
+      placeholder: |
+        - What testing currently exists?
+        - What gaps have been identified?
+        - What problems are occurring?
+
+  - type: textarea
+    id: desired_outcome
+    attributes:
+      label: Desired Outcome
+      description: What should the testing situation look like after this is addressed?
+      placeholder: |
+        - What new test cases are needed?
+        - What improvements should be made?
+        - What coverage gaps should be filled?
+
+  - type: textarea
+    id: test_scenarios
+    attributes:
+      label: Test Scenarios (if applicable)
+      description: Specific test scenarios that need to be covered
+      placeholder: |
+        Scenario 1: [Positive test case]
+        - Given: [preconditions]
+        - When: [action]
+        - Then: [expected result]
+
+        Scenario 2: [Negative test case]
+        - Given: [preconditions]
+        - When: [action]
+        - Then: [expected result]
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will we know this testing issue is resolved?
+      placeholder: |
+        - [ ] Criterion 1...
+        - [ ] Criterion 2...
+        - [ ] Test coverage target achieved
+        - [ ] All test cases pass
+        - [ ] Documentation updated
+
+  - type: textarea
+    id: technical_details
+    attributes:
+      label: Technical Details
+      description: Any technical information relevant to the testing
+      placeholder: |
+        - Test framework/tools involved
+        - Environment requirements
+        - Test data requirements
+        - Performance criteria
+        - Browser/device requirements
+
+  - type: textarea
+    id: automation_considerations
+    attributes:
+      label: Automation Considerations
+      description: Should this be automated? What are the automation requirements?
+      placeholder: |
+        - Should this test be automated?
+        - What automation tools/frameworks to use?
+        - Complexity of automation
+        - Maintenance considerations
+
+  - type: textarea
+    id: risk_assessment
+    attributes:
+      label: Risk Assessment
+      description: What risks does this testing gap or issue present?
+      placeholder: |
+        - Risk to product quality
+        - Risk to user experience
+        - Risk to security/performance
+        - Business impact of not addressing
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other relevant information
+      placeholder: |
+        - Related issues or test cases
+        - Screenshots or examples
+        - References to documentation
+        - Links to similar problems
+
+  - type: checkboxes
+    id: impact_areas
+    attributes:
+      label: Impact Areas
+      description: What areas would be affected by this testing work? (select all that apply)
+      options:
+        - label: Test case library expansion
+        - label: Test automation framework
+        - label: CI/CD pipeline testing
+        - label: Performance testing suite
+        - label: Security testing procedures
+        - label: Accessibility testing coverage
+        - label: Cross-browser testing
+        - label: Mobile device testing
+        - label: API testing coverage
+        - label: Database testing
+        - label: Integration testing
+        - label: Regression testing suite
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify you have completed these steps
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have clearly described the testing issue or requirement
+          required: true
+        - label: I have provided sufficient context and technical details
+          required: true
+        - label: I have considered automation and risk implications
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## 🎯 QA Process
+
+        This testing issue will be:
+        1. **Triaged** by the QA team within 24 hours
+        2. **Analyzed** for scope and effort estimation
+        3. **Prioritized** based on risk and business impact
+        4. **Planned** into appropriate testing sprint
+        5. **Implemented** with proper documentation
+        6. **Reviewed** for effectiveness and coverage
+
+        Thank you for contributing to our quality assurance efforts! 🌟
