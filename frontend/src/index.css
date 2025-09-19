@@ -6,7 +6,7 @@
 /* Global Sci-Fi Styling */
 @layer base {
   body {
-    @apply bg-cosmic-void text-cosmic-cyan font-future;
+    @apply bg-black text-cyan-400;
     background-image:
       radial-gradient(2px 2px at 20px 30px, rgba(0, 255, 255, 0.3), transparent),
       radial-gradient(2px 2px at 40px 70px, rgba(138, 43, 226, 0.2), transparent),

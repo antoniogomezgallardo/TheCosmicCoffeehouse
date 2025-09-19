@@ -122,7 +122,7 @@ export interface ICapsule extends Document {
 
 export interface IMachine extends Document {
   name: string;
-  model: string;
+  machineModel: string;
   type: MachineType;
   description: string;
   capabilities: string[];

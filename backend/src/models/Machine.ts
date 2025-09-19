@@ -18,7 +18,7 @@ const machineSchema = new Schema<IMachine>({
     trim: true,
     index: true
   },
-  model: {
+  machineModel: {
     type: String,
     required: true,
     unique: true
@@ -142,7 +142,7 @@ const machineSchema = new Schema<IMachine>({
 });
 
 // Indexes for efficient querying
-machineSchema.index({ name: 'text', model: 'text', description: 'text' });
+machineSchema.index({ name: 'text', machineModel: 'text', description: 'text' });
 machineSchema.index({ type: 1, powerSource: 1, price: 1 });
 machineSchema.index({ inStock: 1, isActive: 1 });
 machineSchema.index({ rating: -1, purchases: -1 });
@@ -177,7 +177,7 @@ machineSchema.methods.isCompatibleWithCapsuleType = function(powerType: PowerTyp
 machineSchema.methods.addReview = function(review: any) {
   this.reviews.push(review);
   // Recalculate average rating
-  const totalRating = this.reviews.reduce((sum, r) => sum + r.rating, 0);
+  const totalRating = this.reviews.reduce((sum: number, r: any) => sum + r.rating, 0);
   this.rating = totalRating / this.reviews.length;
   return this.save();
 };

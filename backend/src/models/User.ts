@@ -165,7 +165,7 @@ userSchema.methods.generateAuthToken = function(): string {
   return jwt.sign(
     payload,
     process.env.JWT_SECRET || 'cosmic-secret-key',
-    { expiresIn: process.env.JWT_EXPIRES_IN || '15m' }
+    { expiresIn: process.env.JWT_EXPIRES_IN || '15m' } as any
   );
 };
 
@@ -179,7 +179,7 @@ userSchema.methods.generateRefreshToken = function(): string {
   return jwt.sign(
     payload,
     process.env.JWT_REFRESH_SECRET || 'cosmic-refresh-secret',
-    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' }
+    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' } as any
   );
 };
 

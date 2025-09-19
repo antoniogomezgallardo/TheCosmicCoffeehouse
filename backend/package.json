@@ -13,7 +13,7 @@
     "test:integration": "jest --testMatch='**/*.integration.test.ts'",
     "lint": "eslint . --ext .ts",
     "type-check": "tsc --noEmit",
-    "seed": "ts-node src/scripts/seedDatabase.ts",
+    "seed": "ts-node src/scripts/seed.ts",
     "clean": "rm -rf dist"
   },
   "keywords": ["ecommerce", "api", "typescript", "mongodb", "express", "testing"],

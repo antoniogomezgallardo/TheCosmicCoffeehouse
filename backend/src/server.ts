@@ -27,7 +27,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.status(200).json({
     status: 'online',
     message: '🚀 The Cosmic Coffeehouse API is operational!',
@@ -37,7 +37,7 @@ app.get('/health', (req, res) => {
 });
 
 // API Info endpoint
-app.get('/api', (req, res) => {
+app.get('/api', (_req, res) => {
   res.status(200).json({
     name: 'The Cosmic Coffeehouse API',
     version: '1.0.0',
@@ -58,15 +58,17 @@ app.get('/api', (req, res) => {
   });
 });
 
-// Routes (to be implemented)
-// app.use('/api/auth', authRoutes);
-// app.use('/api/users', userRoutes);
-// app.use('/api/capsules', capsuleRoutes);
-// app.use('/api/machines', machineRoutes);
-// app.use('/api/cart', cartRoutes);
-// app.use('/api/orders', orderRoutes);
-// app.use('/api/compatibility', compatibilityRoutes);
-// app.use('/api/promotions', promotionRoutes);
+// Import routes
+import authRoutes from './routes/auth.routes';
+import productsRoutes from './routes/products.routes';
+import cartRoutes from './routes/cart.routes';
+import orderRoutes from './routes/order.routes';
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productsRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -81,7 +83,7 @@ app.use((req, res) => {
 });
 
 // Error handling middleware
-app.use((error: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((error: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error('Error:', error);
 
   const statusCode = error.statusCode || 500;

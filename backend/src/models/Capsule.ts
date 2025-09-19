@@ -154,7 +154,7 @@ capsuleSchema.methods.isCompatibleWith = function(machineId: string): boolean {
 capsuleSchema.methods.addTestimonial = function(testimonial: any) {
   this.testimonials.push(testimonial);
   // Recalculate average rating
-  const totalRating = this.testimonials.reduce((sum, t) => sum + t.rating, 0);
+  const totalRating = this.testimonials.reduce((sum: number, t: any) => sum + t.rating, 0);
   this.rating = totalRating / this.testimonials.length;
   return this.save();
 };
