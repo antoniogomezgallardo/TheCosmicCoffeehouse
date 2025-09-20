@@ -1,6 +1,6 @@
 {
   "name": "the-cosmic-coffeehouse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Senior QA Engineer Interview Preparation - E-Commerce Testing Demonstration",
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" ",
