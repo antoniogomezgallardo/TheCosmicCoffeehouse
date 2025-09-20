@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import ProductList from '../components/Products/ProductList';
 import { productsAPI } from '../services/api';
@@ -38,12 +39,12 @@ const HomePage: React.FC = () => {
               and futuristic brewing machines from across the galaxy.
             </p>
             <div className="space-x-4">
-              <a href="/capsules" className="btn-plasma px-8 py-4 text-lg">
+              <Link to="/capsules" className="btn-plasma px-8 py-4 text-lg">
                 Explore Capsules
-              </a>
-              <a href="/machines" className="btn-neon px-8 py-4 text-lg">
+              </Link>
+              <Link to="/machines" className="btn-neon px-8 py-4 text-lg">
                 Browse Machines
-              </a>
+              </Link>
             </div>
           </div>
         </section>
