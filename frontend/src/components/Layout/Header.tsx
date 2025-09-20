@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 
 const Header: React.FC = () => {
   const { isAuthenticated, user, logout } = useAuth();
-  const { itemCount } = useCart();
+  const { itemCount, openCart } = useCart();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="nav-cosmic fixed top-0 left-0 right-0 z-50">
@@ -13,37 +15,40 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <a href="/" className="text-2xl font-cyber text-cosmic-cyan text-glow">
+            <Link to="/" className="text-2xl font-cyber text-cosmic-cyan text-glow">
               ☕ The Cosmic Coffeehouse
-            </a>
+            </Link>
           </div>
 
           {/* Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-cosmic-cyan hover:text-cosmic-neonGreen transition-colors"
             >
               Home
-            </a>
-            <a
-              href="/capsules"
+            </Link>
+            <Link
+              to="/capsules"
               className="text-cosmic-cyan hover:text-cosmic-neonGreen transition-colors"
             >
               Capsules
-            </a>
-            <a
-              href="/machines"
+            </Link>
+            <Link
+              to="/machines"
               className="text-cosmic-cyan hover:text-cosmic-neonGreen transition-colors"
             >
               Machines
-            </a>
+            </Link>
           </nav>
 
           {/* Right side */}
           <div className="flex items-center space-x-4">
             {/* Cart */}
-            <button className="relative p-2 text-cosmic-cyan hover:text-cosmic-neonGreen transition-colors">
+            <button
+              onClick={openCart}
+              className="relative p-2 text-cosmic-cyan hover:text-cosmic-neonGreen transition-colors"
+            >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6.5M7 13l-1.5-6.5m0 0L5.4 5M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6" />
               </svg>
@@ -75,12 +80,12 @@ const Header: React.FC = () => {
                 {showUserMenu && (
                   <div className="absolute right-0 mt-2 w-48 card-holo">
                     <div className="py-1">
-                      <a href="/profile" className="block px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen">
+                      <Link to="/profile" className="block px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen">
                         Profile
-                      </a>
-                      <a href="/orders" className="block px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen">
+                      </Link>
+                      <Link to="/orders" className="block px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen">
                         Orders
-                      </a>
+                      </Link>
                       <button
                         onClick={logout}
                         className="block w-full text-left px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen"
@@ -93,10 +98,16 @@ const Header: React.FC = () => {
               </div>
             ) : (
               <div className="space-x-2">
-                <button className="btn-neon px-4 py-2">
+                <button
+                  onClick={() => navigate('/login')}
+                  className="btn-neon px-4 py-2"
+                >
                   Login
                 </button>
-                <button className="btn-plasma px-4 py-2">
+                <button
+                  onClick={() => navigate('/register')}
+                  className="btn-plasma px-4 py-2"
+                >
                   Register
                 </button>
               </div>

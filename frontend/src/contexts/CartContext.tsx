@@ -16,6 +16,9 @@ interface CartContextType {
   removeFromCart: (productId: string) => Promise<void>;
   clearCart: () => Promise<void>;
   isLoading: boolean;
+  isCartOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -45,6 +48,7 @@ const getSessionId = () => {
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const sessionId = getSessionId();
 
@@ -134,6 +138,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   };
 
+  const openCart = () => setIsCartOpen(true);
+  const closeCart = () => setIsCartOpen(false);
+
   const value: CartContextType = {
     items,
     itemCount,
@@ -142,7 +149,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     updateQuantity,
     removeFromCart,
     clearCart,
-    isLoading
+    isLoading,
+    isCartOpen,
+    openCart,
+    closeCart
   };
 
   return (

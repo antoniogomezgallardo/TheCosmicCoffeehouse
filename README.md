@@ -221,22 +221,46 @@ VITE_API_URL=http://localhost:3000
 
 ## 📊 API Documentation
 
-### Authentication Endpoints
-- `POST /auth/register` - User registration
-- `POST /auth/login` - User login
-- `GET /auth/profile` - Get user profile
+### Interactive Documentation
+- **Swagger UI**: http://localhost:3000/api/docs - Interactive API documentation with OpenAPI 3.0
+- **JSON Spec**: http://localhost:3000/api/docs.json - Raw OpenAPI specification
 
-### Product Endpoints
-- `GET /capsules` - List all capsules
-- `GET /capsules/:id` - Get specific capsule
-- `GET /machines` - List all machines
-- `GET /machines/:id` - Get specific machine
+### Key Features
+- ✅ **Complete OpenAPI 3.0 Specification** with comprehensive schemas
+- ✅ **Interactive Swagger UI** with custom cosmic theme
+- ✅ **Comprehensive JSDoc Comments** on all API routes
+- ✅ **Schema Validation** for all request/response models
+- ✅ **Authentication Integration** with JWT Bearer tokens
+- ✅ **Try-it-out Functionality** for live API testing
 
-### Cart Endpoints
-- `GET /cart` - Get user's cart
-- `POST /cart/add` - Add item to cart
-- `PUT /cart/update` - Update cart item
-- `DELETE /cart/remove` - Remove cart item
+### Quick API Reference
+
+#### Authentication Endpoints
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/profile` - Get user profile
+
+#### Product Endpoints
+- `GET /api/products/capsules` - List all capsules with filtering
+- `GET /api/products/capsules/:id` - Get specific capsule
+- `GET /api/products/machines` - List all machines with filtering
+- `GET /api/products/machines/:id` - Get specific machine
+- `GET /api/products/featured` - Get featured products
+
+#### Cart Endpoints
+- `GET /api/cart` - Get user's cart
+- `POST /api/cart/add` - Add item to cart
+- `PUT /api/cart/update/:id` - Update cart item
+- `DELETE /api/cart/remove/:id` - Remove cart item
+
+#### Order Endpoints
+- `POST /api/orders` - Create new order
+- `GET /api/orders` - Get user orders
+- `GET /api/orders/:id` - Get specific order
+
+#### Admin Endpoints
+- `GET /api/admin/metrics` - System metrics and analytics
+- `GET /api/admin/health` - Health check endpoint
 
 ## 🔄 Development Workflow (GitFlow)
 
