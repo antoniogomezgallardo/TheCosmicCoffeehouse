@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart';
 
 interface CartSidebarProps {
   isOpen: boolean;

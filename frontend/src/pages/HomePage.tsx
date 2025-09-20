@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import ProductList from '../components/Products/ProductList';
 import { productsAPI } from '../services/api';
+import { SuperpowerCapsule, FuturisticMachine } from '../types';
+
+interface FeaturedProducts {
+  capsules: SuperpowerCapsule[];
+  machines: FuturisticMachine[];
+}
 
 const HomePage: React.FC = () => {
-  const [featuredProducts, setFeaturedProducts] = useState<any>(null);
+  const [featuredProducts, setFeaturedProducts] = useState<FeaturedProducts | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

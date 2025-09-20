@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout/Layout';
 import ProductList from '../components/Products/ProductList';
 import { productsAPI } from '../services/api';
+import { FuturisticMachine } from '../types';
 
 const MachinesPage: React.FC = () => {
-  const [machines, setMachines] = useState<any[]>([]);
+  const [machines, setMachines] = useState<FuturisticMachine[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterType, setFilterType] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('name');

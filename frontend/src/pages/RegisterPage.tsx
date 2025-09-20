@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import Layout from '../components/Layout/Layout';
 
 const RegisterPage: React.FC = () => {
@@ -51,8 +51,9 @@ const RegisterPage: React.FC = () => {
         lastName: formData.lastName
       });
       navigate('/');
-    } catch (error: any) {
-      setError(error.message || 'Registration failed');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

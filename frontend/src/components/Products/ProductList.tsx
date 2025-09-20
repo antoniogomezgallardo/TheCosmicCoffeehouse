@@ -1,8 +1,9 @@
 import React from 'react';
 import ProductCard from './ProductCard';
+import { SuperpowerCapsule, FuturisticMachine } from '../../types';
 
 interface ProductListProps {
-  products: any[];
+  products: (SuperpowerCapsule | FuturisticMachine)[];
   type: 'capsule' | 'machine';
   title?: string;
   isLoading?: boolean;

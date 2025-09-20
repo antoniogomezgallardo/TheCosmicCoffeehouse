@@ -1,4 +1,21 @@
 import axios from 'axios';
+import { RegisterUserData } from '../contexts/AuthContext';
+import { SuperpowerCapsule, FuturisticMachine } from '../types';
+
+interface OrderData {
+  sessionId: string;
+  shippingAddress: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
+  paymentMethod: {
+    type: string;
+    details: Record<string, unknown>;
+  };
+}
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
@@ -25,7 +42,7 @@ export const authAPI = {
     return response.data;
   },
 
-  register: async (userData: any) => {
+  register: async (userData: RegisterUserData) => {
     const response = await api.post('/api/auth/register', userData);
     return response.data;
   },
@@ -71,7 +88,7 @@ export const cartAPI = {
     return response.data;
   },
 
-  addToCart: async (sessionId: string, product: any, quantity: number = 1) => {
+  addToCart: async (sessionId: string, product: SuperpowerCapsule | FuturisticMachine, quantity: number = 1) => {
     const response = await api.post('/api/cart/add', {
       sessionId,
       product,
@@ -102,7 +119,7 @@ export const cartAPI = {
 
 // Orders API
 export const ordersAPI = {
-  createOrder: async (orderData: any) => {
+  createOrder: async (orderData: OrderData) => {
     const response = await api.post('/api/orders', orderData);
     return response.data;
   },
