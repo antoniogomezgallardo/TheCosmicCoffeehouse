@@ -12,7 +12,7 @@ A robust Node.js Express API serving The Cosmic Coffeehouse frontend with TypeSc
 - ✅ **JWT Authentication** with bcrypt password hashing
 - ✅ **RESTful API Design** following industry best practices
 - ✅ **Data Validation** with Mongoose schemas
-- ✅ **CORS Configuration** for cross-origin requests
+- ✅ **Dynamic CORS Configuration** for multiple frontend ports (5173, 5174, etc.)
 - ✅ **Environment Configuration** with dotenv
 - ✅ **Database Seeding** with sample cosmic products
 
@@ -194,7 +194,8 @@ JWT_SECRET=your-super-secret-cosmic-key-here
 JWT_EXPIRES_IN=15m
 
 # CORS Configuration
-FRONTEND_URL=http://localhost:5173
+ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5174,http://localhost:3000
+# FRONTEND_URL=http://localhost:5173 (deprecated - use ALLOWED_ORIGINS)
 
 # Security Configuration
 BCRYPT_ROUNDS=12

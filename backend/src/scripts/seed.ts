@@ -28,7 +28,7 @@ const seedCapsules = [
     discoveredBy: 'Dr. Elena Mindbridge',
     discoveryDate: new Date('2387-03-15'),
     inStock: 47,
-    imageUrl: '/images/capsules/telepathic-blend.jpg',
+    imageUrl: '/images/capsules/telepathic-blend.png',
     warnings: ['Do not use during important negotiations without consent'],
     isActive: true
   },
@@ -53,7 +53,7 @@ const seedCapsules = [
     discoveredBy: 'Olympus Strength Labs',
     discoveryDate: new Date('2385-11-08'),
     inStock: 156,
-    imageUrl: '/images/capsules/hercules-roast.jpg',
+    imageUrl: '/images/capsules/hercules-roast.png',
     warnings: ['Be careful with handshakes'],
     isActive: true
   },
@@ -78,7 +78,7 @@ const seedCapsules = [
     discoveredBy: 'Invisible College of Sciences',
     discoveryDate: new Date('2386-10-31'),
     inStock: 89,
-    imageUrl: '/images/capsules/phantom-brew.jpg',
+    imageUrl: '/images/capsules/phantom-brew.png',
     warnings: ['Do not drive vehicles while invisible'],
     isActive: true
   },
@@ -103,7 +103,7 @@ const seedCapsules = [
     discoveredBy: 'Focus Labs International',
     discoveryDate: new Date('2384-01-15'),
     inStock: 245,
-    imageUrl: '/images/capsules/enhanced-focus.jpg',
+    imageUrl: '/images/capsules/enhanced-focus.png',
     warnings: ['Set alarms for important breaks'],
     isActive: true
   }
@@ -138,7 +138,7 @@ const seedMachines = [
     efficiencyRating: 96,
     maintenanceInterval: 'Every 1000 brews',
     inStock: 23,
-    imageUrl: '/images/machines/quantum-brewmaster.jpg',
+    imageUrl: '/images/machines/quantum-brewmaster.png',
     manualUrl: '/manuals/qbm-3000-manual.pdf',
     isActive: true
   },
@@ -170,7 +170,7 @@ const seedMachines = [
     efficiencyRating: 86,
     maintenanceInterval: 'Every 1500 brews',
     inStock: 67,
-    imageUrl: '/images/machines/universal-cosmic-brewer.jpg',
+    imageUrl: '/images/machines/universal-cosmic-brewer.png',
     manualUrl: '/manuals/ucb-omni-manual.pdf',
     isActive: true
   }

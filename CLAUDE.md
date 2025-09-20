@@ -33,6 +33,7 @@ This is a full-stack e-commerce application with a comprehensive testing strateg
 npm run dev          # Start development environment
 npm run build        # Production build
 npm run docker:up    # Start with Docker Compose
+npm run seed         # Reseed database with sample data (backend)
 ```
 
 ### Testing Commands
@@ -102,6 +103,20 @@ The project is specifically designed to showcase Senior QA Engineer capabilities
 - Real-time monitoring and alerting
 - Test automation framework architecture
 
+## Recent Fixes & Improvements
+
+### Bug Fixes Implemented (September 2025)
+- **CORS Configuration**: Fixed dynamic origin handling for multiple frontend ports (5173, 5174, 3000, 3002)
+- **Image Loading Bug**: Resolved infinite loop in ProductCard component with proper error state management
+- **GitHub Issues Templates**: Fixed dropdown validation errors preventing template visibility
+- **Database Reseeding**: Implemented proper sample data management with image URL updates
+
+### Known Issues Resolved
+- Network errors between frontend (port 5174) and backend (port 3001) ✅ FIXED
+- Placeholder images showing instead of actual product images ✅ FIXED
+- CORS "Allow Origin Not Matching Origin" errors ✅ FIXED
+- Missing GitHub issue templates ✅ FIXED
+
 ## Special Notes
 
 - MongoDB Memory Server used for test isolation
@@ -109,4 +124,6 @@ The project is specifically designed to showcase Senior QA Engineer capabilities
 - Multiple CI/CD platform configs (GitHub Actions, Jenkins, Azure, AWS)
 - Comprehensive documentation following QA best practices
 - Built to demonstrate shift-left and shift-right testing approaches
-- remember to use gitflow each time we use any git command
+- Database reseeding required after updating image assets or sample data
+- CORS configuration supports dynamic origins for development flexibility
+- Use gitflow each time we use any git command
