@@ -28,7 +28,6 @@ body:
         - Performance Testing Issue (performance test related)
         - Security Testing Issue (security test related)
         - Accessibility Testing Issue (accessibility test related)
-      default: 0
     validations:
       required: true
 
@@ -49,7 +48,6 @@ body:
         - Manual Testing
         - Exploratory Testing
         - All Levels
-      default: 2
     validations:
       required: true
 
@@ -73,7 +71,6 @@ body:
         - DevOps & CI/CD
         - Test Framework & Tools
         - All Components
-      default: 0
     validations:
       required: true
 
@@ -87,7 +84,6 @@ body:
         - P1 - High (Important for current sprint)
         - P2 - Medium (Should be addressed soon)
         - P3 - Low (Nice to have improvement)
-      default: 2
     validations:
       required: true
 

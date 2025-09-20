@@ -26,7 +26,6 @@ body:
         - Performance
         - Security
         - Other
-      default: 0
     validations:
       required: true
 
@@ -40,7 +39,6 @@ body:
         - S2 - High (Major functionality broken, significant impact)
         - S3 - Medium (Functionality partially broken, workaround available)
         - S4 - Low (Minor issues, cosmetic problems)
-      default: 2
     validations:
       required: true
 
@@ -54,7 +52,6 @@ body:
         - P1 - High (Fix before next release)
         - P2 - Medium (Fix in upcoming releases)
         - P3 - Low (Fix when time permits)
-      default: 2
     validations:
       required: true
 
