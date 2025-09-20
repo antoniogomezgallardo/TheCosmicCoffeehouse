@@ -74,11 +74,12 @@ The repository follows a monorepo structure with clear separation:
 
 ## Key Principles
 
-### GitFlow Methodology
+### GitFlow Methodology with Local Branch Protection
 - All development on feature branches from `develop`
 - Merge to `develop` before creating new branches
 - Release branches for production deployments
 - Always commit as the main user (configured in global CLAUDE.md)
+- **Local Git Hooks Enforced**: Pre-commit quality checks, commit message validation, and branch protection
 
 ### Testing Strategy
 This project demonstrates the "Quality Guardian" approach:
@@ -135,3 +136,36 @@ The project is specifically designed to showcase Senior QA Engineer capabilities
 - Database reseeding required after updating image assets or sample data
 - CORS configuration supports dynamic origins for development flexibility
 - Use gitflow each time we use any git command
+- **Local & Remote Branch Protection**: Both main and develop branches are protected locally via Git hooks and remotely via GitHub settings
+- PR are required before merging, Status checks need to pass before merging, etc
+
+## Local Git Hooks Implementation
+
+### Automated Quality Gates
+The project implements comprehensive local Git hooks that mirror remote GitHub protection rules:
+
+#### Pre-Commit Hook (`/.git/hooks/pre-commit`)
+- **Smart Validation**: Only runs checks on changed files (frontend/backend detection)
+- **ESLint Checking**: Automatic code linting with fix suggestions
+- **TypeScript Validation**: Type checking and compilation verification
+- **Build Verification**: Ensures code compiles successfully
+- **Unit Tests**: Fast test execution for modified components
+- **Security Scanning**: Detects hardcoded secrets, passwords, and API keys
+- **Package Consistency**: Warns about package.json/package-lock.json mismatches
+
+#### Pre-Push Hook (`/.git/hooks/pre-push`)
+- **Branch Protection**: Prevents direct pushes to main/develop branches
+- **GitFlow Enforcement**: Guides developers to use proper feature branch workflow
+- **Clear Error Messages**: Provides step-by-step instructions for correct workflow
+
+#### Commit Message Hook (`/.git/hooks/commit-msg`)
+- **Conventional Commits**: Enforces standardized commit message format
+- **Type Validation**: Validates commit types (feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert)
+- **Format Guidelines**: Provides examples and clear error messages for invalid formats
+
+### Developer Workflow Impact
+- **Quality Assurance**: Catches issues before they reach remote repository
+- **Consistency**: Enforces coding standards and commit conventions across all developers
+- **Education**: Guides developers through proper GitFlow methodology
+- **Prevention**: Stops problematic code from entering protected branches
+- **Speed**: Fast, selective validation prevents unnecessary full-project checks

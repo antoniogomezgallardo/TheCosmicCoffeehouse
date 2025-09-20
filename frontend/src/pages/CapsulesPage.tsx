@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout/Layout';
 import ProductList from '../components/Products/ProductList';
 import { productsAPI } from '../services/api';
+import { SuperpowerCapsule } from '../types';
 
 const CapsulesPage: React.FC = () => {
-  const [capsules, setCapsules] = useState<any[]>([]);
+  const [capsules, setCapsules] = useState<SuperpowerCapsule[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterType, setFilterType] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('name');
@@ -37,9 +38,10 @@ const CapsulesPage: React.FC = () => {
           return b.price - a.price;
         case 'intensity':
           return b.intensity - a.intensity;
-        case 'rarity':
+        case 'rarity': {
           const rarityOrder = { common: 1, rare: 2, epic: 3, legendary: 4 };
           return (rarityOrder[b.rarity as keyof typeof rarityOrder] || 0) - (rarityOrder[a.rarity as keyof typeof rarityOrder] || 0);
+        }
         default:
           return a.name.localeCompare(b.name);
       }

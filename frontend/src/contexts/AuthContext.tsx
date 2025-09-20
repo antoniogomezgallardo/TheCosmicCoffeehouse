@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { authAPI } from '../services/api';
 
 interface User {
@@ -10,24 +11,33 @@ interface User {
   powerLevel: number;
 }
 
+export interface RegisterUserData {
+  email: string;
+  password: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+}
+
+interface AuthError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+  message?: string;
+}
+
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (userData: any) => Promise<void>;
+  register: (userData: RegisterUserData) => Promise<void>;
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -66,12 +76,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else {
         throw new Error(response.message || 'Login failed');
       }
-    } catch (error: any) {
-      throw new Error(error.response?.data?.message || error.message || 'Login failed');
+    } catch (error: unknown) {
+      const authError = error as AuthError;
+      throw new Error(authError.response?.data?.message || authError.message || 'Login failed');
     }
   };
 
-  const register = async (userData: any) => {
+  const register = async (userData: RegisterUserData) => {
     try {
       const response = await authAPI.register(userData);
 
@@ -83,8 +94,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else {
         throw new Error(response.message || 'Registration failed');
       }
-    } catch (error: any) {
-      throw new Error(error.response?.data?.message || error.message || 'Registration failed');
+    } catch (error: unknown) {
+      const authError = error as AuthError;
+      throw new Error(authError.response?.data?.message || authError.message || 'Registration failed');
     }
   };
 

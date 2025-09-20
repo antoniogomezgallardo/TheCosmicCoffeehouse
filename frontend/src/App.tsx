@@ -8,7 +8,7 @@ import MachinesPage from './pages/MachinesPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CartSidebar from './components/Cart/CartSidebar';
-import { useCart } from './contexts/CartContext';
+import { useCart } from './hooks/useCart';
 
 function AppContent() {
   const { isCartOpen, openCart, closeCart } = useCart();

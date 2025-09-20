@@ -262,32 +262,51 @@ VITE_API_URL=http://localhost:3000
 - `GET /api/admin/metrics` - System metrics and analytics
 - `GET /api/admin/health` - Health check endpoint
 
-## 🔄 Development Workflow (GitFlow)
+## 🔄 Development Workflow (GitFlow + Local Protection)
 
+### 🛡️ Local Git Hooks Protection
+This project implements automated local quality gates that prevent problematic code from reaching the remote repository:
+
+- **Pre-Commit Validation**: Automatic ESLint, TypeScript, build checks, and security scanning
+- **Branch Protection**: Prevents direct pushes to main/develop branches
+- **Commit Message Validation**: Enforces Conventional Commits format
+- **Smart Checks**: Only validates changed files for optimal performance
+
+### Development Workflow with Hooks
 ```bash
 # Start new feature
 git checkout develop
 git pull origin develop
 git checkout -b feature/new-feature
 
-# Development and testing
+# Development with automatic validation
 # ... make changes ...
 git add .
-git commit -m "feat: add new feature"
+git commit -m "feat: add new feature"  # Validates: commit format, code quality, tests
+git push origin feature/new-feature    # ✅ Allowed for feature branches
 
-# Merge to develop
+# Attempting direct push to protected branches
 git checkout develop
-git merge feature/new-feature
-git push origin develop
+git push origin develop                # ❌ BLOCKED by pre-push hook
+
+# Correct workflow - use Pull Requests
+# 1. Push feature branch (allowed)
+# 2. Create PR: feature/new-feature → develop
+# 3. Get approval and merge via GitHub UI
 
 # Release workflow
 git checkout -b release/v1.0.0
 # ... final testing and fixes ...
-git checkout main
-git merge release/v1.0.0
-git tag v1.0.0
-git push origin main --tags
+git commit -m "chore: prepare release v1.0.0"  # Validates automatically
+# Create PR: release/v1.0.0 → main
+# Merge via GitHub UI with approvals
 ```
+
+### Git Hook Benefits
+- **Quality Assurance**: Catches issues before they reach remote repository
+- **Consistency**: Enforces coding standards across all developers
+- **Education**: Guides proper GitFlow methodology
+- **Speed**: Fast, selective validation
 
 ## 🐛 Known Issues & QA Opportunities
 
@@ -309,10 +328,28 @@ The application currently has intentional issues to demonstrate QA processes:
 
 This project is designed for interview demonstration. For development:
 
-1. Create feature branch from `develop`
-2. Implement changes with tests
-3. Submit PR with comprehensive description
-4. Ensure all quality gates pass
+1. **Clone and setup** - Git hooks are automatically installed
+2. **Create feature branch** from `develop` (never work directly on main/develop)
+3. **Implement changes** - Pre-commit hooks will validate your code automatically
+4. **Commit with proper format** - Use Conventional Commits (enforced by hooks)
+5. **Push feature branch** - Pre-push hook allows feature branches only
+6. **Submit PR** with comprehensive description to `develop`
+7. **Ensure quality gates pass** - Both local hooks and CI/CD must pass
+
+### 🔧 Local Development Setup
+```bash
+git clone [repository-url]
+cd TheCosmicCoffeehouse
+npm install                    # Installs dependencies
+# Git hooks are already installed and active
+git checkout -b feature/my-feature  # Start development
+```
+
+### 🚨 Important Git Hook Rules
+- **No direct pushes** to main/develop branches
+- **Automatic quality checks** on every commit
+- **Conventional commit format** required
+- **Security scanning** prevents secrets in commits
 
 ## 📝 License
 

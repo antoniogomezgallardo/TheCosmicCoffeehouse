@@ -207,7 +207,7 @@ export interface ApiResponse<T> {
   error?: {
     code: string;
     message: string;
-    details?: any;
+    details?: Record<string, unknown>;
   };
   pagination?: {
     page: number;
@@ -300,5 +300,5 @@ export interface TestStep {
   action: string;
   expectedResult: string;
   selector?: string;
-  testData?: any;
+  testData?: Record<string, unknown>;
 }

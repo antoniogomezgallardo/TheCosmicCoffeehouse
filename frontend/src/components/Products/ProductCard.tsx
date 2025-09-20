@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart';
+import { SuperpowerCapsule, FuturisticMachine } from '../../types';
 
 interface ProductCardProps {
-  product: any;
+  product: SuperpowerCapsule | FuturisticMachine;
   type: 'capsule' | 'machine';
 }
 

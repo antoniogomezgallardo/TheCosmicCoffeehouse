@@ -1,8 +1,12 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { cartAPI } from '../services/api';
+import { SuperpowerCapsule, FuturisticMachine } from '../types';
+
+type Product = SuperpowerCapsule | FuturisticMachine;
 
 interface CartItem {
-  product: any;
+  product: Product;
   productType: 'capsule' | 'machine';
   quantity: number;
 }
@@ -11,7 +15,7 @@ interface CartContextType {
   items: CartItem[];
   itemCount: number;
   total: number;
-  addToCart: (product: any, quantity?: number) => Promise<void>;
+  addToCart: (product: Product, quantity?: number) => Promise<void>;
   updateQuantity: (productId: string, quantity: number) => Promise<void>;
   removeFromCart: (productId: string) => Promise<void>;
   clearCart: () => Promise<void>;
@@ -21,15 +25,7 @@ interface CartContextType {
   closeCart: () => void;
 }
 
-const CartContext = createContext<CartContextType | null>(null);
-
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-};
+export const CartContext = createContext<CartContextType | null>(null);
 
 interface CartProviderProps {
   children: ReactNode;
@@ -59,9 +55,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Load cart on mount
   useEffect(() => {
     loadCart();
-  }, []);
+  }, [loadCart]);
 
-  const loadCart = async () => {
+  const loadCart = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await cartAPI.getCart(sessionId);
@@ -73,9 +69,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [sessionId]);
 
-  const addToCart = async (product: any, quantity: number = 1) => {
+  const addToCart = async (product: Product, quantity: number = 1) => {
     try {
       setIsLoading(true);
       const productWithType = {
