@@ -4,7 +4,17 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger';
 import { connectDatabase } from './config/database';
+import { Logger } from './config/logger';
+import {
+  requestLogger,
+  errorLogger,
+  securityLogger,
+  businessLogger
+} from './middleware/logging';
+import { metricsMiddleware, metricsEndpoint } from './middleware/metrics';
 
 // Load environment variables
 dotenv.config();
@@ -40,6 +50,12 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Enhanced logging and metrics middleware
+app.use(metricsMiddleware);
+app.use(requestLogger);
+app.use(securityLogger);
+app.use(businessLogger);
+
 // Health check endpoint
 app.get('/health', (_req, res) => {
   res.status(200).json({
@@ -50,22 +66,55 @@ app.get('/health', (_req, res) => {
   });
 });
 
+// Swagger API Documentation
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  explorer: true,
+  customCss: `
+    .topbar-wrapper .download-url-wrapper { display: none }
+    .swagger-ui .topbar { background-color: #1a1a2e; }
+    .swagger-ui .info .title { color: #16213e; }
+    .swagger-ui .scheme-container { background-color: #0f4c75; }
+    .swagger-ui .btn.authorize { background-color: #3282b8; border-color: #3282b8; }
+    .swagger-ui .btn.authorize:hover { background-color: #bbe1fa; }
+    .swagger-ui .opblock.opblock-get .opblock-summary-method { background: #61affe; }
+    .swagger-ui .opblock.opblock-post .opblock-summary-method { background: #49cc90; }
+    .swagger-ui .opblock.opblock-put .opblock-summary-method { background: #fca130; }
+    .swagger-ui .opblock.opblock-delete .opblock-summary-method { background: #f93e3e; }
+  `,
+  customSiteTitle: 'The Cosmic Coffeehouse API Documentation',
+  customfavIcon: '/favicon.ico',
+  swaggerOptions: {
+    persistAuthorization: true,
+    displayRequestDuration: true,
+    filter: true,
+    showExtensions: true,
+    showCommonExtensions: true,
+    docExpansion: 'list'
+  }
+}));
+
+// Serve raw OpenAPI JSON
+app.get('/api/docs.json', (_req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
+// Prometheus metrics endpoint
+app.get('/metrics', metricsEndpoint);
+
 // API Info endpoint
 app.get('/api', (_req, res) => {
   res.status(200).json({
     name: 'The Cosmic Coffeehouse API',
-    version: '1.0.0',
+    version: '1.1.0',
     description: 'Superpower Coffee E-commerce Platform',
     endpoints: {
       health: '/health',
+      metrics: '/metrics',
       auth: '/api/auth',
-      users: '/api/users',
-      capsules: '/api/capsules',
-      machines: '/api/machines',
+      products: '/api/products',
       cart: '/api/cart',
-      orders: '/api/orders',
-      compatibility: '/api/compatibility',
-      promotions: '/api/promotions'
+      orders: '/api/orders'
     },
     documentation: '/api/docs',
     powerLevel: 'MAXIMUM'
@@ -97,8 +146,13 @@ app.use((req, res) => {
 });
 
 // Error handling middleware
+app.use(errorLogger);
 app.use((error: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error('Error:', error);
+  Logger.error('Unhandled application error', {
+    error: error.message,
+    stack: error.stack,
+    statusCode: error.statusCode
+  });
 
   const statusCode = error.statusCode || 500;
   const message = error.message || 'Internal Server Error';
@@ -122,6 +176,13 @@ const startServer = async () => {
 
     // Start Express server
     app.listen(PORT, () => {
+      Logger.info(`🚀 THE COSMIC COFFEEHOUSE API SERVER STARTED`, {
+        port: PORT,
+        environment: process.env.NODE_ENV || 'development',
+        powerLevel: 'MAXIMUM',
+        observabilityEnabled: true
+      });
+
       console.log(`
 ╔══════════════════════════════════════════════════════════╗
 ║                                                          ║
@@ -131,13 +192,17 @@ const startServer = async () => {
 ║     🌌 Environment: ${process.env.NODE_ENV || 'development'}                 ║
 ║     ⚡ Power Level: MAXIMUM                             ║
 ║     🔮 Superpower Coffee API: ONLINE                    ║
+║     📊 Observability: ENABLED                           ║
 ║                                                          ║
+║     Admin Dashboard: /api/admin/metrics                  ║
+║     Health Check: /api/admin/health                      ║
 ║     Ready to serve superpowers in coffee form!           ║
 ║                                                          ║
 ╚══════════════════════════════════════════════════════════╝
       `);
     });
   } catch (error) {
+    Logger.error('Failed to start server', { error: (error as Error).message });
     console.error('Failed to start server:', error);
     process.exit(1);
   }
@@ -145,12 +210,14 @@ const startServer = async () => {
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (error: Error) => {
+  Logger.error('Unhandled Promise Rejection', { error: error.message, stack: error.stack });
   console.error('Unhandled Rejection:', error);
   process.exit(1);
 });
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (error: Error) => {
+  Logger.error('Uncaught Exception', { error: error.message, stack: error.stack });
   console.error('Uncaught Exception:', error);
   process.exit(1);
 });

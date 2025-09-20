@@ -16,13 +16,21 @@ A robust Node.js Express API serving The Cosmic Coffeehouse frontend with TypeSc
 - ✅ **Environment Configuration** with dotenv
 - ✅ **Database Seeding** with sample cosmic products
 
+### ✅ **Recent Implementations**
+- ✅ **Complete OpenAPI 3.0 Documentation** with interactive Swagger UI
+- ✅ **Comprehensive JSDoc Comments** on all API routes
+- ✅ **Custom Swagger UI Styling** with cosmic theme
+- ✅ **Schema Validation** for all data models
+- ✅ **Rate Limiting** and security middleware
+- ✅ **Structured Logging** with Winston
+- ✅ **Input Validation** with express-validator
+- ✅ **Error Handling** middleware
+
 ### 🔮 Upcoming Features
 - 🔄 **Unit Testing** with Jest and Supertest
-- 🔄 **API Documentation** with Swagger/OpenAPI
-- 🔄 **Rate Limiting** and security middleware
-- 🔄 **Logging** with Winston
-- 🔄 **Input Validation** with express-validator
-- 🔄 **Error Handling** middleware
+- 🔄 **Integration Testing** with MongoDB Memory Server
+- 🔄 **Performance Monitoring** with detailed metrics
+- 🔄 **Health Check Endpoints** for monitoring
 
 ## 🛠️ Technology Stack
 
@@ -150,6 +158,8 @@ interface IMachine {
 
 7. **Access the API**
    - Backend API: http://localhost:3000
+   - **Interactive API Documentation**: http://localhost:3000/api/docs
+   - **OpenAPI JSON Spec**: http://localhost:3000/api/docs.json
 
 ### Development Commands
 
@@ -207,6 +217,30 @@ LOG_LEVEL=debug
 ```
 
 ## 📊 API Documentation
+
+### 🎆 Interactive Documentation
+
+The Cosmic Coffeehouse API now features comprehensive OpenAPI 3.0 documentation:
+
+- **Swagger UI**: http://localhost:3000/api/docs
+  - Interactive interface with try-it-out functionality
+  - Custom cosmic theme matching the application design
+  - JWT authentication integration for secure endpoint testing
+  - Comprehensive schema definitions and examples
+
+- **OpenAPI JSON**: http://localhost:3000/api/docs.json
+  - Raw OpenAPI 3.0 specification for tooling integration
+  - Complete schema definitions for all models
+  - Detailed endpoint documentation with JSDoc comments
+
+### 🚀 Key Documentation Features
+
+- **Complete Schema Coverage**: All request/response models documented
+- **Authentication Integration**: Bearer token support for protected endpoints
+- **Interactive Testing**: Live API testing directly from documentation
+- **Comprehensive Examples**: Real-world request/response samples
+- **Error Documentation**: Detailed error codes and responses
+- **Custom Styling**: Cosmic-themed UI matching application branding
 
 ### Authentication Endpoints
 

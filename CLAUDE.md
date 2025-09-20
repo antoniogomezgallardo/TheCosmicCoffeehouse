@@ -19,12 +19,13 @@ This is a full-stack e-commerce application with a comprehensive testing strateg
 ### Testing Architecture (Complete Test Pyramid)
 - **Unit Testing**: Jest + React Testing Library (frontend), Jest + Supertest (backend)
 - **Integration Testing**: Supertest for API integration, MongoDB Memory Server for isolated DB tests
-- **Contract Testing**: Pact for consumer-driven contracts, JSON Schema validation
+- **Contract Testing**: Pact for consumer-driven contracts, OpenAPI 3.0 schema validation
 - **E2E Testing**: Playwright with Page Object Model pattern, cross-browser testing
-- **API Testing**: Supertest (native) + Postman collections for demonstrations
+- **API Testing**: Supertest (native) + Postman collections + OpenAPI validation
 - **Performance Testing**: K6 for load testing, Artillery as backup
 - **Security Testing**: OWASP ZAP integration, Snyk for dependency scanning
-- **Monitoring**: Winston logging + Prometheus + Grafana
+- **API Documentation**: OpenAPI 3.0 with Swagger UI for interactive documentation
+- **Monitoring**: Winston logging + comprehensive metrics collection
 
 ## Development Commands
 
@@ -104,6 +105,13 @@ The project is specifically designed to showcase Senior QA Engineer capabilities
 - Test automation framework architecture
 
 ## Recent Fixes & Improvements
+
+### Latest Enhancements (September 2025)
+- **OpenAPI 3.0 Implementation**: Complete API documentation with Swagger UI at `/api/docs`
+- **Comprehensive JSDoc Comments**: Added detailed documentation to all API routes
+- **Custom Swagger UI Styling**: Cosmic-themed interactive documentation interface
+- **Schema Definitions**: Extensive data models for all API request/response objects
+- **Interactive API Testing**: Try-it-out functionality with JWT authentication support
 
 ### Bug Fixes Implemented (September 2025)
 - **CORS Configuration**: Fixed dynamic origin handling for multiple frontend ports (5173, 5174, 3000, 3002)
