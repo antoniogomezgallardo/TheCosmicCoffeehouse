@@ -88,7 +88,7 @@ export const metricsEndpoint = async (req: Request, res: Response) => {
     const metricsData = await metrics.getMetrics();
     res.set('Content-Type', 'text/plain');
     res.send(metricsData);
-  } catch (error) {
+  } catch {
     res.status(500).json({ error: 'Failed to collect metrics' });
   }
 };
