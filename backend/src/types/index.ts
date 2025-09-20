@@ -24,7 +24,11 @@ export enum MachineType {
   PLASMA = 'plasma',
   TEMPORAL = 'temporal',
   NEURAL = 'neural',
-  COSMIC = 'cosmic'
+  COSMIC = 'cosmic',
+  PHYSICAL = 'physical',
+  MYSTICAL = 'mystical',
+  ELEMENTAL = 'elemental',
+  PORTABLE = 'portable'
 }
 
 export enum PowerSource {
@@ -33,7 +37,13 @@ export enum PowerSource {
   TEMPORAL_FLUX = 'temporal-flux',
   DARK_MATTER = 'dark-matter',
   ANTIMATTER = 'antimatter',
-  COSMIC = 'cosmic'
+  COSMIC = 'cosmic',
+  BIO_NEURAL_CELLS = 'bio-neural-cells',
+  KINETIC_GENERATORS = 'kinetic-generators',
+  ETHEREAL_CRYSTALS = 'ethereal-crystals',
+  TEMPORAL_CORES = 'temporal-cores',
+  ELEMENTAL_STONES = 'elemental-stones',
+  COMPACT_BATTERIES = 'compact-batteries'
 }
 
 export enum OrderStatus {

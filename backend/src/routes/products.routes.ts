@@ -102,12 +102,12 @@ router.get('/featured', async (req: Request, res: Response) => {
     const capsules = await Capsule.find({
       isActive: true,
       rarity: { $in: ['epic', 'legendary'] }
-    }).limit(3);
+    }).limit(4);
 
     const machines = await Machine.find({
       isActive: true,
       price: { $gte: 10000 }
-    }).limit(3);
+    }).limit(4);
 
     res.json({
       success: true,
