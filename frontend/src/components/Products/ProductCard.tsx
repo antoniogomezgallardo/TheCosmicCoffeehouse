@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../../contexts/CartContext';
 
 interface ProductCardProps {
@@ -8,6 +8,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
   const { addToCart } = useCart();
+  const [imageError, setImageError] = useState(false);
 
   const handleAddToCart = async () => {
     try {
@@ -30,11 +31,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
       {/* Product Image */}
       <div className="relative mb-4">
         <img
-          src={product.imageUrl || '/images/placeholder.jpg'}
+          src={!imageError && product.imageUrl ? product.imageUrl : '/images/placeholder.svg'}
           alt={product.name}
           className="w-full h-48 object-cover rounded-cyber"
-          onError={(e) => {
-            e.currentTarget.src = '/images/placeholder.jpg';
+          onError={() => {
+            if (!imageError) {
+              setImageError(true);
+            }
           }}
         />
         {type === 'capsule' && (
