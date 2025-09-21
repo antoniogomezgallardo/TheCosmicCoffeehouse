@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout/Layout';
 import ProductList from '../components/Products/ProductList';
 import { productsAPI } from '../services/api';
-import { FuturisticMachine } from '../types';
+import type { FuturisticMachine } from '../types';
 
 const MachinesPage: React.FC = () => {
   const [machines, setMachines] = useState<FuturisticMachine[]>([]);
@@ -17,9 +17,9 @@ const MachinesPage: React.FC = () => {
   const loadMachines = async () => {
     try {
       setIsLoading(true);
-      const response = await productsAPI.getMachines();
+      const response = await productsAPI.getMachines() as { success: boolean; data?: unknown };
       if (response.success) {
-        setMachines(response.data);
+        setMachines(response.data as FuturisticMachine[]);
       }
     } catch (error) {
       console.error('Failed to load machines:', error);

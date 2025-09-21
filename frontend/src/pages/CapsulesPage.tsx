@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout/Layout';
 import ProductList from '../components/Products/ProductList';
 import { productsAPI } from '../services/api';
-import { SuperpowerCapsule } from '../types';
+import type { SuperpowerCapsule } from '../types';
 
 const CapsulesPage: React.FC = () => {
   const [capsules, setCapsules] = useState<SuperpowerCapsule[]>([]);
@@ -17,9 +17,9 @@ const CapsulesPage: React.FC = () => {
   const loadCapsules = async () => {
     try {
       setIsLoading(true);
-      const response = await productsAPI.getCapsules();
+      const response = await productsAPI.getCapsules() as { success: boolean; data?: unknown };
       if (response.success) {
-        setCapsules(response.data);
+        setCapsules(response.data as SuperpowerCapsule[]);
       }
     } catch (error) {
       console.error('Failed to load capsules:', error);

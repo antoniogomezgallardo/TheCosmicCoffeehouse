@@ -53,7 +53,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
             ) : (
               <div className="space-y-4">
                 {items.map((item) => (
-                  <div key={item.product._id || item.product.id} className="flex items-center space-x-4 p-4 border border-cosmic-cyan border-opacity-20 rounded-cyber">
+                  <div key={item.product.id} className="flex items-center space-x-4 p-4 border border-cosmic-cyan border-opacity-20 rounded-cyber">
                     <img
                       src={item.product.imageUrl || '/images/placeholder.jpg'}
                       alt={item.product.name}
@@ -67,14 +67,14 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                       <p className="text-cosmic-energy">${item.product.price}</p>
                       <div className="flex items-center space-x-2 mt-2">
                         <button
-                          onClick={() => updateQuantity(item.product._id || item.product.id, item.quantity - 1)}
+                          onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
                           className="w-6 h-6 bg-cosmic-space border border-cosmic-cyan text-cosmic-cyan rounded text-sm hover:bg-cosmic-cyan hover:text-cosmic-void"
                         >
                           -
                         </button>
                         <span className="text-cosmic-cyan">{item.quantity}</span>
                         <button
-                          onClick={() => updateQuantity(item.product._id || item.product.id, item.quantity + 1)}
+                          onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
                           className="w-6 h-6 bg-cosmic-space border border-cosmic-cyan text-cosmic-cyan rounded text-sm hover:bg-cosmic-cyan hover:text-cosmic-void"
                         >
                           +
@@ -82,7 +82,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                       </div>
                     </div>
                     <button
-                      onClick={() => removeFromCart(item.product._id || item.product.id)}
+                      onClick={() => removeFromCart(item.product.id)}
                       className="text-cosmic-plasma hover:text-cosmic-energy"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

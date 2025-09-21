@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { RegisterUserData } from '../contexts/AuthContext';
-import { SuperpowerCapsule, FuturisticMachine } from '../types';
+import type { RegisterUserData } from '../contexts/AuthContext';
+import type { SuperpowerCapsule, FuturisticMachine } from '../types';
 
 interface OrderData {
   sessionId: string;
@@ -29,7 +29,7 @@ export const api = axios.create({
 // Add token to requests if available
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('authToken');
-  if (token) {
+  if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
