@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { authAPI } from '../services/api';
 
 interface User {
@@ -66,10 +67,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await authAPI.login(email, password);
+      const response = await authAPI.login(email, password) as { success: boolean; data?: unknown; message?: string };
 
       if (response.success) {
-        const { user, token } = response.data;
+        const { user, token } = response.data as { user: User; token: string };
         localStorage.setItem('authToken', token);
         localStorage.setItem('userData', JSON.stringify(user));
         setUser(user);
@@ -84,10 +85,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (userData: RegisterUserData) => {
     try {
-      const response = await authAPI.register(userData);
+      const response = await authAPI.register(userData) as { success: boolean; data?: unknown; message?: string };
 
       if (response.success) {
-        const { user, token } = response.data;
+        const { user, token } = response.data as { user: User; token: string };
         localStorage.setItem('authToken', token);
         localStorage.setItem('userData', JSON.stringify(user));
         setUser(user);

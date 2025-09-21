@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../../hooks/useCart';
-import { SuperpowerCapsule, FuturisticMachine } from '../../types';
+import type { SuperpowerCapsule, FuturisticMachine } from '../../types';
 
 interface ProductCardProps {
   product: SuperpowerCapsule | FuturisticMachine;
@@ -42,8 +42,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
           }}
         />
         {type === 'capsule' && (
-          <span className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-bold ${getRarityClass(product.rarity)} border`}>
-            {product.rarity.toUpperCase()}
+          <span className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-bold ${getRarityClass((product as SuperpowerCapsule).rarity)} border`}>
+            {(product as SuperpowerCapsule).rarity.toUpperCase()}
           </span>
         )}
       </div>
@@ -54,20 +54,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
 
         {type === 'capsule' ? (
           <>
-            <p className={`text-sm ${getPowerTypeClass(product.powerType)}`}>
-              {product.superpower}
+            <p className={`text-sm ${getPowerTypeClass((product as SuperpowerCapsule).powerType)}`}>
+              {(product as SuperpowerCapsule).superpower}
             </p>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-cosmic-cyan">Duration: {product.duration}</span>
-              <span className="text-cosmic-energy">Intensity: {product.intensity}/10</span>
+              <span className="text-cosmic-cyan">Duration: {(product as SuperpowerCapsule).duration}</span>
+              <span className="text-cosmic-energy">Intensity: {(product as SuperpowerCapsule).intensity}/10</span>
             </div>
           </>
         ) : (
           <>
-            <p className="text-cosmic-cyan text-sm">{product.model}</p>
+            <p className="text-cosmic-cyan text-sm">{(product as FuturisticMachine).model}</p>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-cosmic-cyan">Type: {product.type}</span>
-              <span className="text-cosmic-energy">Power: {product.specifications.maxPowerOutput}</span>
+              <span className="text-cosmic-cyan">Type: {(product as FuturisticMachine).type}</span>
+              <span className="text-cosmic-energy">Power: {(product as FuturisticMachine).specifications.maxPowerOutput}</span>
             </div>
           </>
         )}
@@ -98,9 +98,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
         </div>
 
         {/* Additional Info */}
-        {type === 'capsule' && product.warnings && product.warnings.length > 0 && (
+        {type === 'capsule' && (product as SuperpowerCapsule).warnings && (product as SuperpowerCapsule).warnings.length > 0 && (
           <div className="text-xs text-cosmic-plasma">
-            ⚠️ {product.warnings[0]}
+            ⚠️ {(product as SuperpowerCapsule).warnings[0]}
           </div>
         )}
       </div>

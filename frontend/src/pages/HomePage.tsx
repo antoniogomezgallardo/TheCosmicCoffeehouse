@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import ProductList from '../components/Products/ProductList';
 import { productsAPI } from '../services/api';
-import { SuperpowerCapsule, FuturisticMachine } from '../types';
+import type { SuperpowerCapsule, FuturisticMachine } from '../types';
 
 interface FeaturedProducts {
   capsules: SuperpowerCapsule[];
@@ -20,9 +20,9 @@ const HomePage: React.FC = () => {
 
   const loadFeaturedProducts = async () => {
     try {
-      const response = await productsAPI.getFeatured();
+      const response = await productsAPI.getFeatured() as { success: boolean; data?: unknown };
       if (response.success) {
-        setFeaturedProducts(response.data);
+        setFeaturedProducts(response.data as FeaturedProducts);
       }
     } catch (error) {
       console.error('Failed to load featured products:', error);

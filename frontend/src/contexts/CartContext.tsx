@@ -1,7 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
+import type { ReactNode } from 'react';
 import { cartAPI } from '../services/api';
-import { SuperpowerCapsule, FuturisticMachine } from '../types';
+import type { SuperpowerCapsule, FuturisticMachine } from '../types';
 
 type Product = SuperpowerCapsule | FuturisticMachine;
 
@@ -52,17 +53,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const total = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 
-  // Load cart on mount
-  useEffect(() => {
-    loadCart();
-  }, [loadCart]);
-
   const loadCart = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await cartAPI.getCart(sessionId);
+      const response = await cartAPI.getCart(sessionId) as { success: boolean; data?: unknown };
       if (response.success) {
-        setItems(response.data || []);
+        setItems((response.data as CartItem[]) || []);
       }
     } catch (error) {
       console.error('Failed to load cart:', error);
@@ -71,17 +67,22 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   }, [sessionId]);
 
+  // Load cart on mount
+  useEffect(() => {
+    loadCart();
+  }, [loadCart]);
+
   const addToCart = async (product: Product, quantity: number = 1) => {
     try {
       setIsLoading(true);
       const productWithType = {
         ...product,
-        productType: product.superpower ? 'capsule' : 'machine'
+        productType: 'superpower' in product ? 'capsule' : 'machine'
       };
 
-      const response = await cartAPI.addToCart(sessionId, productWithType, quantity);
+      const response = await cartAPI.addToCart(sessionId, productWithType, quantity) as { success: boolean; data?: unknown };
       if (response.success) {
-        setItems(response.data || []);
+        setItems((response.data as CartItem[]) || []);
       }
     } catch (error) {
       console.error('Failed to add to cart:', error);
@@ -94,9 +95,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const updateQuantity = async (productId: string, quantity: number) => {
     try {
       setIsLoading(true);
-      const response = await cartAPI.updateCart(sessionId, productId, quantity);
+      const response = await cartAPI.updateCart(sessionId, productId, quantity) as { success: boolean; data?: unknown };
       if (response.success) {
-        setItems(response.data || []);
+        setItems((response.data as CartItem[]) || []);
       }
     } catch (error) {
       console.error('Failed to update cart:', error);
@@ -109,9 +110,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const removeFromCart = async (productId: string) => {
     try {
       setIsLoading(true);
-      const response = await cartAPI.removeFromCart(sessionId, productId);
+      const response = await cartAPI.removeFromCart(sessionId, productId) as { success: boolean; data?: unknown };
       if (response.success) {
-        setItems(response.data || []);
+        setItems((response.data as CartItem[]) || []);
       }
     } catch (error) {
       console.error('Failed to remove from cart:', error);
