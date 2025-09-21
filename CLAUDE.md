@@ -25,7 +25,7 @@ This is a full-stack e-commerce application with a comprehensive testing strateg
 - **Performance Testing**: K6 for load testing, Artillery as backup
 - **Security Testing**: OWASP ZAP integration, Snyk for dependency scanning
 - **API Documentation**: OpenAPI 3.0 with Swagger UI for interactive documentation
-- **Monitoring**: Winston logging + comprehensive metrics collection
+- **Logging**: Winston-based application logging
 
 ## Development Commands
 
@@ -102,7 +102,7 @@ The project is specifically designed to showcase Senior QA Engineer capabilities
 - CI/CD pipeline with quality gates
 - Performance bottleneck identification
 - Security vulnerability scanning
-- Real-time monitoring and alerting
+- Application logging and error tracking
 - Test automation framework architecture
 
 ## Recent Fixes & Improvements

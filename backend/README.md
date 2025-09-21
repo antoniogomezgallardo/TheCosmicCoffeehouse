@@ -29,7 +29,7 @@ A robust Node.js Express API serving The Cosmic Coffeehouse frontend with TypeSc
 ### 🔮 Upcoming Features
 - 🔄 **Unit Testing** with Jest and Supertest
 - 🔄 **Integration Testing** with MongoDB Memory Server
-- 🔄 **Performance Monitoring** with detailed metrics
+- 🔄 **Application Logging** with Winston for debugging
 - 🔄 **Health Check Endpoints** for monitoring
 
 ## 🛠️ Technology Stack

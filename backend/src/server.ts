@@ -14,7 +14,6 @@ import {
   securityLogger,
   businessLogger
 } from './middleware/logging';
-import { metricsMiddleware, metricsEndpoint } from './middleware/metrics';
 
 // Load environment variables
 dotenv.config();
@@ -50,8 +49,7 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Enhanced logging and metrics middleware
-app.use(metricsMiddleware);
+// Enhanced logging middleware
 app.use(requestLogger);
 app.use(securityLogger);
 app.use(businessLogger);
@@ -99,8 +97,6 @@ app.get('/api/docs.json', (_req, res) => {
   res.send(swaggerSpec);
 });
 
-// Prometheus metrics endpoint
-app.get('/metrics', metricsEndpoint);
 
 // API Info endpoint
 app.get('/api', (_req, res) => {
@@ -110,7 +106,6 @@ app.get('/api', (_req, res) => {
     description: 'Superpower Coffee E-commerce Platform',
     endpoints: {
       health: '/health',
-      metrics: '/metrics',
       auth: '/api/auth',
       products: '/api/products',
       cart: '/api/cart',
@@ -179,8 +174,7 @@ const startServer = async () => {
       Logger.info(`🚀 THE COSMIC COFFEEHOUSE API SERVER STARTED`, {
         port: PORT,
         environment: process.env.NODE_ENV || 'development',
-        powerLevel: 'MAXIMUM',
-        observabilityEnabled: true
+        powerLevel: 'MAXIMUM'
       });
 
       console.log(`
@@ -192,10 +186,10 @@ const startServer = async () => {
 ║     🌌 Environment: ${process.env.NODE_ENV || 'development'}                 ║
 ║     ⚡ Power Level: MAXIMUM                             ║
 ║     🔮 Superpower Coffee API: ONLINE                    ║
-║     📊 Observability: ENABLED                           ║
+║     🔮 Superpower Coffee API: ONLINE                    ║
 ║                                                          ║
-║     Admin Dashboard: /api/admin/metrics                  ║
-║     Health Check: /api/admin/health                      ║
+║     Health Check: /health                                ║
+║     API Documentation: /api/docs                         ║
 ║     Ready to serve superpowers in coffee form!           ║
 ║                                                          ║
 ╚══════════════════════════════════════════════════════════╝

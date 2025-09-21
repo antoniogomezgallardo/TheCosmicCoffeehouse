@@ -150,7 +150,7 @@ TheCosmicCoffeehouse/
 ### 🔮 Upcoming Features (QA Phase)
 - 🔄 **Comprehensive Testing Suite**
 - 🔄 **CI/CD Pipeline**
-- 🔄 **Performance Monitoring**
+- 🔄 **Application Logging**
 - 🔄 **Security Testing**
 - 🔄 **Bug Tracking System**
 
@@ -258,9 +258,8 @@ VITE_API_URL=http://localhost:3000
 - `GET /api/orders` - Get user orders
 - `GET /api/orders/:id` - Get specific order
 
-#### Admin Endpoints
-- `GET /api/admin/metrics` - System metrics and analytics
-- `GET /api/admin/health` - Health check endpoint
+#### Health Endpoints
+- `GET /health` - Application health check endpoint
 
 ## 🔄 Development Workflow (GitFlow + Local Protection)
 
