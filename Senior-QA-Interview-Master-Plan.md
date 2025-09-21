@@ -69,9 +69,8 @@ Security Testing:
 
 Monitoring (Easy & Cheap):
 - Winston for logging
-- Prometheus + Grafana (free, powerful)
 - Simple health check endpoints
-- Basic metrics collection
+- Application logging with Winston
 ```
 
 ### **CI/CD Multi-Platform Strategy**
@@ -219,10 +218,9 @@ Ready-to-Show Configs:
 - [ ] Authentication security tests
 - [ ] Dependency vulnerability scanning
 
-**Monitoring & Observability**
+**Logging & Health Monitoring**
 - [ ] Winston logging setup
-- [ ] Prometheus metrics collection
-- [ ] Grafana dashboard creation
+- [ ] Health check endpoints
 - [ ] Health check endpoints
 - [ ] Error tracking system
 
@@ -243,13 +241,13 @@ Ready-to-Show Configs:
 - [ ] API Documentation (OpenAPI/Swagger)
 - [ ] Test Plan with Risk Matrix
 - [ ] Runbook for test execution
-- [ ] Quality Metrics Dashboard
+- [ ] Test Results Dashboard
 
 **Interview Preparation**
 - [ ] Live demo environment setup
 - [ ] Presentation slides (15-20 slides max)
 - [ ] Code walkthrough preparation
-- [ ] Metrics and results compilation
+- [ ] Test results compilation
 - [ ] Problem-solving scenarios practice
 - [ ] Questions for interviewers prepared
 
@@ -318,7 +316,7 @@ git push origin feature/demo
 npm run test:performance
 
 # Show monitoring dashboard
-open http://localhost:3000/metrics
+open http://localhost:3001/health
 
 # Analyze bottlenecks
 npm run analyze:performance
@@ -346,7 +344,7 @@ npm run analyze:performance
 ### **Knowledge Areas to Cover**
 - [ ] TDD/BDD methodologies
 - [ ] Risk-based testing approach
-- [ ] Quality metrics that matter
+- [ ] Test quality indicators that matter
 - [ ] Team collaboration techniques
 - [ ] Automation strategy principles
 - [ ] Production monitoring practices

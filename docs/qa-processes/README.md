@@ -110,7 +110,7 @@ This documentation serves to:
 - **Test Management**: GitHub Projects
 - **Documentation**: Markdown, GitHub Wiki
 - **CI/CD**: GitHub Actions
-- **Monitoring**: Planned (Prometheus, Grafana)
+- **Logging**: Winston application logging
 
 ## 📝 Documentation Standards
 
