@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { IUser, PowerType } from '../types';
 
 const userSchema = new Schema<IUser>({
@@ -139,8 +139,8 @@ userSchema.pre('save', async function(next) {
     const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_ROUNDS) || 10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
-  } catch (error: any) {
-    next(error);
+  } catch (error) {
+    next(error as Error);
   }
 });
 
@@ -165,7 +165,9 @@ userSchema.methods.generateAuthToken = function(): string {
   return jwt.sign(
     payload,
     process.env.JWT_SECRET || 'cosmic-secret-key',
-    { expiresIn: process.env.JWT_EXPIRES_IN || '15m' } as any
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN || '15m'
+    } as SignOptions
   );
 };
 
@@ -179,7 +181,9 @@ userSchema.methods.generateRefreshToken = function(): string {
   return jwt.sign(
     payload,
     process.env.JWT_REFRESH_SECRET || 'cosmic-refresh-secret',
-    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' } as any
+    {
+      expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d'
+    } as SignOptions
   );
 };
 

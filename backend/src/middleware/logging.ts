@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Logger } from '../config/logger';
+import { AuthRequest } from '../types';
 
 // Request logging middleware
 export const requestLogger = (req: Request, res: Response, next: NextFunction) => {
@@ -119,7 +120,7 @@ export const businessLogger = (req: Request, res: Response, next: NextFunction) 
     // Log successful purchases/orders
     if (req.path.includes('/api/orders') && req.method === 'POST' && res.statusCode === 201) {
       Logger.business('Order created', {
-        userId: String((req as any).user?.id || 'anonymous')
+        userId: String((req as AuthRequest).user?.id || 'anonymous')
       });
       // Order created event logged
     }
@@ -128,7 +129,7 @@ export const businessLogger = (req: Request, res: Response, next: NextFunction) 
     if (req.path.includes('/api/products/') && req.method === 'GET' && res.statusCode === 200) {
       Logger.business('Product viewed', {
         productType: req.path.includes('capsules') ? 'capsule' : 'machine',
-        userId: String((req as any).user?.id || 'anonymous')
+        userId: String((req as AuthRequest).user?.id || 'anonymous')
       });
       // Product viewed event logged
     }
@@ -136,7 +137,7 @@ export const businessLogger = (req: Request, res: Response, next: NextFunction) 
     // Log cart additions
     if (req.path.includes('/api/cart/add') && req.method === 'POST' && res.statusCode === 200) {
       Logger.business('Item added to cart', {
-        userId: String((req as any).user?.id || req.body?.sessionId || 'anonymous')
+        userId: String((req as AuthRequest).user?.id || req.body?.sessionId || 'anonymous')
       });
       // Cart addition event logged
     }

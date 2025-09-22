@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { ICapsule, PowerType, Rarity } from '../types';
+import { ICapsule, PowerType, Rarity, IReview } from '../types';
 
 const testimonialSchema = new Schema({
   userId: { type: String },
@@ -151,10 +151,10 @@ capsuleSchema.methods.isCompatibleWith = function(machineId: string): boolean {
 };
 
 // Method to add a testimonial
-capsuleSchema.methods.addTestimonial = function(testimonial: any) {
+capsuleSchema.methods.addTestimonial = function(testimonial: IReview) {
   this.testimonials.push(testimonial);
   // Recalculate average rating
-  const totalRating = this.testimonials.reduce((sum: number, t: any) => sum + t.rating, 0);
+  const totalRating = this.testimonials.reduce((sum: number, t: IReview) => sum + t.rating, 0);
   this.rating = totalRating / this.testimonials.length;
   return this.save();
 };
