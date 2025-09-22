@@ -303,8 +303,7 @@ jobs:
 
     steps:
       - name: Auto-merge dependabot PR
-        uses: pascalgn/merge-action@v0.15.6
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          merge_method: squash
-          merge_commit_message: "chore: {pull_request.title} (#${pull_request.number})"
+        run: |
+          gh pr merge --auto --squash --delete-branch "${{ github.event.pull_request.number }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -2,6 +2,9 @@ const eslint = require('@eslint/js');
 const tseslint = require('@typescript-eslint/eslint-plugin');
 
 module.exports = [
+  {
+    ignores: ['dist/**/*', 'node_modules/**/*', 'coverage/**/*'],
+  },
   eslint.configs.recommended,
   {
     files: ['**/*.ts'],

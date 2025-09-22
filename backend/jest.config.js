@@ -19,11 +19,7 @@ module.exports = {
   // Transform TypeScript files
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: {
-        // Override tsconfig for tests to allow commonjs imports
-        esModuleInterop: true,
-        allowJs: true
-      }
+      tsconfig: 'tsconfig.test.json'
     }]
   },
 
