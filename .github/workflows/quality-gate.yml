@@ -145,12 +145,22 @@ jobs:
           npm audit --audit-level=high
 
       - name: Run Snyk security scan
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && secrets.SNYK_TOKEN != ''
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
+
+      - name: Skip Snyk scan (token not available)
+        if: github.event_name == 'pull_request' && secrets.SNYK_TOKEN == ''
+        run: |
+          echo "⚠️ Snyk security scan skipped - SNYK_TOKEN not configured in repository secrets"
+          echo "To enable Snyk scanning:"
+          echo "1. Sign up at https://snyk.io"
+          echo "2. Generate an API token"
+          echo "3. Add it as SNYK_TOKEN in repository secrets"
+          echo "ℹ️ Basic npm audit was already performed - no high-severity vulnerabilities found"
 
   build-verification:
     name: Build Verification

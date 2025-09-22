@@ -58,9 +58,9 @@ export const errorLogger = (error: Error, req: Request, res: Response, next: Nex
     stack: error.stack,
     method: req.method,
     url: req.url,
-    body: req.body,
-    params: req.params,
-    query: req.query,
+    body: JSON.stringify(req.body),
+    params: JSON.stringify(req.params),
+    query: JSON.stringify(req.query),
     userAgent: req.get('User-Agent'),
     ip: req.ip,
     timestamp: new Date().toISOString()
@@ -101,7 +101,7 @@ export const securityLogger = (req: Request, res: Response, next: NextFunction) 
         pattern: pattern.toString(),
         method: req.method,
         url: req.url,
-        body: req.body,
+        body: JSON.stringify(req.body),
         ip: req.ip,
         userAgent: req.get('User-Agent')
       });
@@ -119,7 +119,7 @@ export const businessLogger = (req: Request, res: Response, next: NextFunction) 
     // Log successful purchases/orders
     if (req.path.includes('/api/orders') && req.method === 'POST' && res.statusCode === 201) {
       Logger.business('Order created', {
-        userId: (req as any).user?.id
+        userId: String((req as any).user?.id || 'anonymous')
       });
       // Order created event logged
     }
@@ -128,7 +128,7 @@ export const businessLogger = (req: Request, res: Response, next: NextFunction) 
     if (req.path.includes('/api/products/') && req.method === 'GET' && res.statusCode === 200) {
       Logger.business('Product viewed', {
         productType: req.path.includes('capsules') ? 'capsule' : 'machine',
-        userId: (req as any).user?.id
+        userId: String((req as any).user?.id || 'anonymous')
       });
       // Product viewed event logged
     }
@@ -136,7 +136,7 @@ export const businessLogger = (req: Request, res: Response, next: NextFunction) 
     // Log cart additions
     if (req.path.includes('/api/cart/add') && req.method === 'POST' && res.statusCode === 200) {
       Logger.business('Item added to cart', {
-        userId: (req as any).user?.id || req.body?.sessionId
+        userId: String((req as any).user?.id || req.body?.sessionId || 'anonymous')
       });
       // Cart addition event logged
     }
@@ -147,28 +147,28 @@ export const businessLogger = (req: Request, res: Response, next: NextFunction) 
 
 // Database operation logging
 export const databaseLogger = {
-  logFind: (collection: string, query: any, resultCount?: number) => {
+  logFind: (collection: string, query: Record<string, unknown>, resultCount?: number) => {
     Logger.database('FIND', collection, {
       query: JSON.stringify(query),
       resultCount
     });
   },
 
-  logInsert: (collection: string, document: any) => {
+  logInsert: (collection: string, document: Record<string, unknown>) => {
     Logger.database('INSERT', collection, {
-      documentId: document._id || document.id,
+      documentId: String(document._id || document.id || 'unknown'),
       documentType: collection
     });
   },
 
-  logUpdate: (collection: string, query: any, update: any) => {
+  logUpdate: (collection: string, query: Record<string, unknown>, update: Record<string, unknown>) => {
     Logger.database('UPDATE', collection, {
       query: JSON.stringify(query),
       update: JSON.stringify(update)
     });
   },
 
-  logDelete: (collection: string, query: any) => {
+  logDelete: (collection: string, query: Record<string, unknown>) => {
     Logger.database('DELETE', collection, {
       query: JSON.stringify(query)
     });
