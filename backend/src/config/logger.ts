@@ -93,30 +93,35 @@ if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
 }
 
+// Define interface for log metadata
+interface LogMetadata {
+  [key: string]: string | number | boolean | Date | null | undefined;
+}
+
 // Enhanced logging methods
 export const Logger = {
-  error: (message: string, meta?: any) => {
+  error: (message: string, meta?: LogMetadata) => {
     logger.error(message, meta);
   },
 
-  warn: (message: string, meta?: any) => {
+  warn: (message: string, meta?: LogMetadata) => {
     logger.warn(message, meta);
   },
 
-  info: (message: string, meta?: any) => {
+  info: (message: string, meta?: LogMetadata) => {
     logger.info(message, meta);
   },
 
-  http: (message: string, meta?: any) => {
+  http: (message: string, meta?: LogMetadata) => {
     logger.http(message, meta);
   },
 
-  debug: (message: string, meta?: any) => {
+  debug: (message: string, meta?: LogMetadata) => {
     logger.debug(message, meta);
   },
 
   // Specialized logging methods for QA observability
-  auth: (action: string, userId?: string, meta?: any) => {
+  auth: (action: string, userId?: string, meta?: LogMetadata) => {
     logger.info(`🔐 AUTH: ${action}`, {
       category: 'authentication',
       userId,
@@ -125,7 +130,7 @@ export const Logger = {
     });
   },
 
-  api: (method: string, endpoint: string, statusCode: number, responseTime: number, meta?: any) => {
+  api: (method: string, endpoint: string, statusCode: number, responseTime: number, meta?: LogMetadata) => {
     logger.http(`🌐 API: ${method} ${endpoint} - ${statusCode} (${responseTime}ms)`, {
       category: 'api',
       method,
@@ -137,7 +142,7 @@ export const Logger = {
     });
   },
 
-  database: (operation: string, collection: string, meta?: any) => {
+  database: (operation: string, collection: string, meta?: LogMetadata) => {
     logger.info(`🗃️ DB: ${operation} on ${collection}`, {
       category: 'database',
       operation,
@@ -147,7 +152,7 @@ export const Logger = {
     });
   },
 
-  security: (event: string, severity: 'low' | 'medium' | 'high' | 'critical', meta?: any) => {
+  security: (event: string, severity: 'low' | 'medium' | 'high' | 'critical', meta?: LogMetadata) => {
     const level = severity === 'critical' || severity === 'high' ? 'error' : 'warn';
     logger[level](`🛡️ SECURITY [${severity.toUpperCase()}]: ${event}`, {
       category: 'security',
@@ -157,7 +162,7 @@ export const Logger = {
     });
   },
 
-  performance: (metric: string, value: number, unit: string, meta?: any) => {
+  performance: (metric: string, value: number, unit: string, meta?: LogMetadata) => {
     logger.info(`📊 PERF: ${metric} = ${value}${unit}`, {
       category: 'performance',
       metric,
@@ -168,7 +173,7 @@ export const Logger = {
     });
   },
 
-  business: (event: string, meta?: any) => {
+  business: (event: string, meta?: LogMetadata) => {
     logger.info(`💼 BUSINESS: ${event}`, {
       category: 'business',
       timestamp: new Date().toISOString(),

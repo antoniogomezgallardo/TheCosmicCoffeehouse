@@ -63,6 +63,15 @@ export enum OrderStatus {
 // DOCUMENT INTERFACES
 // ===============================
 
+export interface IReview {
+  userId?: string;
+  user: string;
+  rating: number;
+  review: string;
+  verified?: boolean;
+  createdAt?: Date;
+}
+
 export interface IUser extends Document {
   email: string;
   username: string;

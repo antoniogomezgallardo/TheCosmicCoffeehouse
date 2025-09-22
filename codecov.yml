@@ -1,0 +1,48 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 85%
+        threshold: 2%
+        if_ci_failed: error
+    patch:
+      default:
+        target: 80%
+        threshold: 5%
+        if_ci_failed: error
+
+  ignore:
+    - "**/*.test.ts"
+    - "**/*.test.tsx"
+    - "**/test/**"
+    - "**/tests/**"
+    - "**/coverage/**"
+    - "**/dist/**"
+    - "**/node_modules/**"
+    - "**/*.config.js"
+    - "**/*.config.ts"
+    - "**/vite.config.ts"
+    - "**/jest.config.js"
+    - "**/jest.setup.ts"
+    - "**/tailwind.config.js"
+    - "**/postcss.config.js"
+
+flags:
+  backend:
+    paths:
+      - backend/src/
+    carryforward: true
+  frontend:
+    paths:
+      - frontend/src/
+    carryforward: true
+
+comment:
+  layout: "header, diff, flags, components"
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: false
+
+github_checks:
+  annotations: true

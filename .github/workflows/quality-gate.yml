@@ -1,0 +1,310 @@
+name: Quality Gates
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+    types: [ opened, synchronize, reopened ]
+
+env:
+  NODE_VERSION: '18'
+  MONGODB_URI: mongodb://localhost:27017/cosmic-coffeehouse-test
+
+jobs:
+  backend-quality:
+    name: Backend Quality Gates
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18, 20]
+
+    services:
+      mongodb:
+        image: mongo:6.0
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: password
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: ./backend
+        run: npm run lint
+
+      - name: Run TypeScript type checking
+        working-directory: ./backend
+        run: npm run type-check
+
+      - name: Run unit tests with coverage
+        working-directory: ./backend
+        env:
+          NODE_ENV: test
+          JWT_SECRET: test-jwt-secret-for-github-actions
+        run: npm run test:coverage
+
+      - name: Upload backend coverage to Codecov
+        if: matrix.node-version == 18
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./backend/coverage/lcov.info
+          flags: backend
+          name: backend-coverage
+
+  frontend-quality:
+    name: Frontend Quality Gates
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18, 20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: ./frontend
+        run: npm run lint
+
+      - name: Run TypeScript type checking
+        working-directory: ./frontend
+        run: npm run type-check
+
+      - name: Run frontend unit tests
+        working-directory: ./frontend
+        run: npm run test:unit -- --passWithNoTests
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Upload frontend coverage to Codecov
+        if: matrix.node-version == 18
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./frontend/coverage/lcov.info
+          flags: frontend
+          name: frontend-coverage
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Backend security audit
+        working-directory: ./backend
+        run: |
+          npm ci
+          npm audit --audit-level=high
+
+      - name: Frontend security audit
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm audit --audit-level=high
+
+      - name: Run Snyk security scan
+        if: github.event_name == 'pull_request'
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: Note about Snyk scan
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Note: Snyk security scan was attempted above"
+          echo "If it failed, ensure SNYK_TOKEN is configured in repository secrets"
+          echo "Basic npm audit was already performed successfully"
+
+  build-verification:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    needs: [backend-quality, frontend-quality]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd backend && npm ci
+          cd ../frontend && npm ci
+
+      - name: Build backend
+        working-directory: ./backend
+        run: npm run build
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Docker build verification
+        run: |
+          docker-compose build --no-cache
+          docker-compose config
+
+  performance-baseline:
+    name: Performance Baseline
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Run performance baseline tests
+        working-directory: ./backend
+        env:
+          NODE_ENV: test
+          JWT_SECRET: test-jwt-secret
+        run: |
+          echo "Running performance baseline tests..."
+          time npm test
+          echo "Test execution completed"
+
+      - name: Bundle size analysis
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run build
+          echo "Bundle size analysis completed"
+          ls -la dist/assets/
+
+  quality-gate-summary:
+    name: Quality Gate Summary
+    runs-on: ubuntu-latest
+    needs: [backend-quality, frontend-quality, security-audit, build-verification]
+    if: always()
+
+    steps:
+      - name: Quality gate status
+        run: |
+          echo "## Quality Gate Results" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Backend Quality | ${{ needs.backend-quality.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Frontend Quality | ${{ needs.frontend-quality.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Audit | ${{ needs.security-audit.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Build Verification | ${{ needs.build-verification.result }} |" >> $GITHUB_STEP_SUMMARY
+
+          if [[ "${{ needs.backend-quality.result }}" == "success" && "${{ needs.frontend-quality.result }}" == "success" && "${{ needs.security-audit.result }}" == "success" && "${{ needs.build-verification.result }}" == "success" ]]; then
+            echo "✓ All quality gates passed!" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          else
+            echo "✗ Some quality gates failed!" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+  # Coverage threshold enforcement
+  coverage-threshold:
+    name: Coverage Threshold Check
+    runs-on: ubuntu-latest
+    needs: [backend-quality]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate coverage report
+        working-directory: ./backend
+        env:
+          NODE_ENV: test
+          JWT_SECRET: test-jwt-secret
+        run: npm run test:coverage
+
+      - name: Coverage threshold enforcement
+        working-directory: ./backend
+        run: |
+          echo "Checking coverage thresholds..."
+          # Jest will fail if coverage thresholds are not met
+          # Thresholds are configured in jest.config.js:
+          # - Global: 80% lines, 75% branches, 80% functions, 80% statements
+          npm run test:coverage
+
+  # Auto-merge for dependabot PRs that pass all checks
+  auto-merge:
+    name: Auto-merge dependabot PRs
+    runs-on: ubuntu-latest
+    needs: [backend-quality, frontend-quality, security-audit, build-verification]
+    if: |
+      github.event_name == 'pull_request' &&
+      github.actor == 'dependabot[bot]' &&
+      needs.backend-quality.result == 'success' &&
+      needs.frontend-quality.result == 'success' &&
+      needs.security-audit.result == 'success' &&
+      needs.build-verification.result == 'success'
+
+    steps:
+      - name: Auto-merge dependabot PR
+        uses: pascalgn/merge-action@v0.15.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          merge_method: squash
+          merge_commit_message: "chore: {pull_request.title} (#${pull_request.number})"

@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { IMachine, MachineType, PowerSource, PowerType } from '../types';
+import { IMachine, MachineType, PowerSource, PowerType, IReview } from '../types';
 
 const reviewSchema = new Schema({
   userId: { type: String },
@@ -174,10 +174,10 @@ machineSchema.methods.isCompatibleWithCapsuleType = function(powerType: PowerTyp
 };
 
 // Method to add a review
-machineSchema.methods.addReview = function(review: any) {
+machineSchema.methods.addReview = function(review: IReview) {
   this.reviews.push(review);
   // Recalculate average rating
-  const totalRating = this.reviews.reduce((sum: number, r: any) => sum + r.rating, 0);
+  const totalRating = this.reviews.reduce((sum: number, r: IReview) => sum + r.rating, 0);
   this.rating = totalRating / this.reviews.length;
   return this.save();
 };
