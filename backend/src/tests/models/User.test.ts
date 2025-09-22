@@ -14,6 +14,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../../models/User';
 
+// Add this line to let TypeScript know about jest globals
+import { afterAll, beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals';
+
 // Mock bcrypt for predictable testing
 jest.mock('bcryptjs');
 const mockedBcrypt = bcrypt as jest.Mocked<typeof bcrypt>;
