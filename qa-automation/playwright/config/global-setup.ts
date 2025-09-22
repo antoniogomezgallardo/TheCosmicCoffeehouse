@@ -15,7 +15,7 @@ async function globalSetup(config: FullConfig) {
   try {
     // Wait for the application to be ready
     console.log('⏳ Waiting for application to be ready...');
-    await page.goto(baseURL || 'http://localhost:5174');
+    await page.goto(baseURL || 'http://localhost:5173');
     await page.waitForSelector('body', { timeout: 30000 });
 
     // Verify backend API is accessible

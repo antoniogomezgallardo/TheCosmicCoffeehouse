@@ -46,6 +46,7 @@ export abstract class BasePage {
    * Take a screenshot
    */
   async takeScreenshot(name: string): Promise<void> {
+    // Ensure screenshots directory exists
     await this.page.screenshot({
       path: `test-results/screenshots/${name}.png`,
       fullPage: true

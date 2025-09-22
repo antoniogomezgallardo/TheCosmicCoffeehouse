@@ -74,9 +74,11 @@ export class HomePage extends BasePage {
    * Navigate to login page
    */
   async navigateToLogin(): Promise<void> {
-    const loginLink = this.page.locator('a:has-text("Login"), button:has-text("Login"), a:has-text("Sign In"), button:has-text("Sign In")').first();
-    if (await this.isVisible(loginLink)) {
-      await this.clickAndWaitForNavigation(loginLink);
+    // Based on debug output, there's a "Login" button
+    const loginButton = this.page.locator('button:has-text("Login")').first();
+    if (await this.isVisible(loginButton)) {
+      await loginButton.click();
+      await this.waitForPageLoad();
     } else {
       await this.page.goto('/login');
     }
@@ -86,9 +88,11 @@ export class HomePage extends BasePage {
    * Navigate to register page
    */
   async navigateToRegister(): Promise<void> {
-    const registerLink = this.page.locator('a:has-text("Register"), button:has-text("Register"), a:has-text("Sign Up"), button:has-text("Sign Up")').first();
-    if (await this.isVisible(registerLink)) {
-      await this.clickAndWaitForNavigation(registerLink);
+    // Based on debug output, there's a "Register" button
+    const registerButton = this.page.locator('button:has-text("Register")').first();
+    if (await this.isVisible(registerButton)) {
+      await registerButton.click();
+      await this.waitForPageLoad();
     } else {
       await this.page.goto('/register');
     }
@@ -98,9 +102,10 @@ export class HomePage extends BasePage {
    * Navigate to products page
    */
   async navigateToProducts(): Promise<void> {
-    const productsLink = this.page.locator('a:has-text("Products"), button:has-text("Products"), a:has-text("Shop"), button:has-text("Shop")').first();
-    if (await this.isVisible(productsLink)) {
-      await this.clickAndWaitForNavigation(productsLink);
+    // Based on debug output, there are "Capsules" and "Machines" links, or "Explore Capsules"
+    const capsulesLink = this.page.locator('a:has-text("Capsules"), a:has-text("Explore Capsules")').first();
+    if (await this.isVisible(capsulesLink)) {
+      await this.clickAndWaitForNavigation(capsulesLink);
     } else {
       await this.page.goto('/products');
     }

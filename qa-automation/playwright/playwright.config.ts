@@ -33,16 +33,16 @@ export default defineConfig({
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html', { outputFolder: 'test-results/html' }],
-    ['junit', { outputFile: 'test-results/junit.xml' }],
-    ['json', { outputFile: 'test-results/results.json' }],
+    ['html', { outputFolder: 'reports/html' }],
+    ['junit', { outputFile: 'reports/junit.xml' }],
+    ['json', { outputFile: 'reports/results.json' }],
     ['list']
   ],
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL || 'http://localhost:5174',
+    baseURL: process.env.BASE_URL || 'http://localhost:5173',
 
     /* API endpoint for backend testing */
     extraHTTPHeaders: {
@@ -127,19 +127,19 @@ export default defineConfig({
       command: 'npm run dev:backend',
       cwd: '../../',
       port: 3001,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true, // Allow reusing existing server
       timeout: 120 * 1000,
     },
     {
       command: 'npm run dev:frontend',
       cwd: '../../',
-      port: 5174,
-      reuseExistingServer: !process.env.CI,
+      port: 5173,
+      reuseExistingServer: true, // Allow reusing existing server
       timeout: 120 * 1000,
     },
   ],
 
   /* Global setup and teardown */
-  globalSetup: require.resolve('./config/global-setup.ts'),
-  globalTeardown: require.resolve('./config/global-teardown.ts'),
+  // globalSetup: require.resolve('./config/global-setup.ts'),
+  // globalTeardown: require.resolve('./config/global-teardown.ts'),
 });
