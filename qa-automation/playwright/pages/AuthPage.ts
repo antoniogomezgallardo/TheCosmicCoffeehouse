@@ -30,26 +30,30 @@ export class AuthPage extends BasePage {
   constructor(page: Page, isLoginPage: boolean = true) {
     super(page, isLoginPage ? '/login' : '/register');
 
-    // Initialize common locators with multiple fallback selectors
-    this.emailInput = page.locator('input[type="email"], input[name="email"], input[placeholder*="email"]').first();
-    this.passwordInput = page.locator('input[type="password"], input[name="password"]').first();
-    this.submitButton = page.locator('button[type="submit"], input[type="submit"], button:has-text("Login"), button:has-text("Register"), button:has-text("Sign In"), button:has-text("Sign Up")').first();
-    this.errorMessage = page.locator('.error, [class*="error"], .alert-danger, [role="alert"]').first();
-    this.successMessage = page.locator('.success, [class*="success"], .alert-success').first();
+    // Initialize common locators with data-testid priority and fallback selectors
+    this.emailInput = page.locator('[data-testid="email-input"], input[type="email"], input[name="email"], input[placeholder*="email"]').first();
+    this.passwordInput = page.locator('[data-testid="password-input"], input[type="password"], input[name="password"]').first();
+    this.submitButton = page.locator('[data-testid="submit-button"], button[type="submit"]');
+    this.errorMessage = page.locator('[data-testid="error-message"], .error, [class*="error"], .alert-danger, [role="alert"]').first();
+    this.successMessage = page.locator('[data-testid="success-message"], .success, [class*="success"], .alert-success').first();
     this.switchFormLink = page.locator('a:has-text("Register"), a:has-text("Login"), a:has-text("Sign up"), a:has-text("Sign in")').first();
 
-    // Register-specific locators
-    this.usernameInput = page.locator('input[name="username"], input[placeholder*="username"]').first();
-    this.firstNameInput = page.locator('input[name="firstName"], input[name="first_name"], input[placeholder*="first"]').first();
-    this.lastNameInput = page.locator('input[name="lastName"], input[name="last_name"], input[placeholder*="last"]').first();
-    this.confirmPasswordInput = page.locator('input[name="confirmPassword"], input[name="confirm_password"], input[placeholder*="confirm"]').first();
+    // Register-specific locators with data-testid priority
+    this.usernameInput = page.locator('[data-testid="username-input"], input[name="username"], input[placeholder*="username"]').first();
+    this.firstNameInput = page.locator('[data-testid="firstName-input"], input[name="firstName"], input[name="first_name"], input[placeholder*="first"]').first();
+    this.lastNameInput = page.locator('[data-testid="lastName-input"], input[name="lastName"], input[name="last_name"], input[placeholder*="last"]').first();
+    this.confirmPasswordInput = page.locator('[data-testid="confirmPassword-input"], input[name="confirmPassword"], input[name="confirm_password"], input[placeholder*="confirm"]').first();
   }
 
   /**
    * Login with credentials
    */
   async login(email: string, userPassword: string): Promise<void> {
-    await this.goto();
+    // Only navigate if not already on login page
+    if (!this.page.url().includes('/login')) {
+      await this.page.goto('/login');
+      await this.page.waitForLoadState('networkidle');
+    }
     await this.fillLoginForm(email, userPassword);
     await this.submitForm();
     await this.waitForAuthResult();
@@ -59,7 +63,11 @@ export class AuthPage extends BasePage {
    * Register new user
    */
   async register(userData: UserCredentials): Promise<void> {
-    await this.goto();
+    // Only navigate if not already on register page
+    if (!this.page.url().includes('/register')) {
+      await this.page.goto('/register');
+      await this.page.waitForLoadState('networkidle');
+    }
     await this.fillRegisterForm(userData);
     await this.submitForm();
     await this.waitForAuthResult();

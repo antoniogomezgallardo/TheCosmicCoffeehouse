@@ -15,13 +15,13 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-cyber text-cosmic-cyan text-glow">
+            <Link to="/" data-testid="logo-link" className="text-2xl font-cyber text-cosmic-cyan text-glow">
               ☕ The Cosmic Coffeehouse
             </Link>
           </div>
 
           {/* Navigation */}
-          <nav className="hidden md:flex space-x-8" data-testid="navigation">
+          <nav className="hidden md:flex space-x-8" data-testid="navigation-menu">
             <Link
               to="/"
               className="text-cosmic-cyan hover:text-cosmic-neonGreen transition-colors"
@@ -100,7 +100,7 @@ const Header: React.FC = () => {
                 )}
               </div>
             ) : (
-              <div className="space-x-2">
+              <div className="space-x-2" data-testid="auth-links">
                 <button
                   onClick={() => navigate('/login')}
                   className="btn-neon px-4 py-2"

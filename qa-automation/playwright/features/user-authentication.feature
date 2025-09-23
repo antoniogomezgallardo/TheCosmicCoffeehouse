@@ -18,9 +18,9 @@ Feature: User Authentication
       | firstName | BDD                           |
       | lastName  | Test                          |
     Then I should be successfully registered
-      And I should be redirected to the dashboard or login page
+    And I should be redirected to the dashboard or login page
 
-  @critical
+  @smoke @critical
   Scenario: Successful user login
     Given I have a registered user account
     And I navigate to the login page

@@ -282,16 +282,67 @@ Create `.vscode/settings.json` in project root:
 }
 ```
 
+**IMPORTANT**: Also create `.vscode/tasks.json` for Node console integration:
+```json
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Node REPL",
+      "type": "shell",
+      "command": "node",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Node REPL (E2E Context)",
+      "type": "shell",
+      "command": "node",
+      "options": {
+        "cwd": "${workspaceFolder}/qa-automation/playwright"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
+```
+
 #### **Navigation Methods**
 - **Ctrl+Click** on any step → jumps to step definition
 - **F12** (Go to Definition) → navigates to implementation
 - **Right-click** → "Go to Definition" → opens step file
+- **Ctrl+Shift+P** → "Tasks: Run Task" → "Node REPL" for console access
 
 #### **Benefits**
 - ✅ **Instant debugging**: Click on failing step to see implementation
 - ✅ **No "undefined" steps**: All steps properly recognized
 - ✅ **Syntax highlighting**: Full Gherkin support
 - ✅ **Auto-completion**: IntelliSense for step writing
+- ✅ **Node console**: Direct access to Node REPL for debugging
+- ✅ **E2E context**: Node console with proper working directory
+
+## 🔍 Debugging Tests
+
+For comprehensive debugging guidance, see **[E2E-DEBUGGING-GUIDE.md](./E2E-DEBUGGING-GUIDE.md)**
+
+### Quick Debug Commands:
+- `npm run test:ui` - Interactive UI mode (best for debugging)
+- `npm run test:debug` - Step-by-step debugging with inspector
+- `npm run test:trace` - Run with trace recording
+- `trace:show` - View trace after test failure
 
 ## 🎯 Key Achievements
 

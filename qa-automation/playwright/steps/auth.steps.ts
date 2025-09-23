@@ -6,7 +6,7 @@ const { Given, When, Then } = createBdd(test);
 
 When('I register with valid credentials:', async ({ page, authPage }, table: any) => {
   const data = table.rowsHash();
-  await authPage.register(data.email, data.username, data.password, data.firstName, data.lastName);
+  await authPage.register(data);
 });
 
 When('I login with valid credentials:', async ({ page, authPage }, table: any) => {
@@ -21,12 +21,12 @@ When('I attempt to login with invalid credentials:', async ({ page, authPage }, 
 
 When('I attempt to register with invalid data:', async ({ page, authPage }, table: any) => {
   const data = table.rowsHash();
-  await authPage.register(data.email, data.username, data.password);
+  await authPage.register(data);
 });
 
 When('I attempt to register with an existing email:', async ({ page, authPage }, table: any) => {
   const data = table.rowsHash();
-  await authPage.register(data.email, data.username, data.password);
+  await authPage.register(data);
 });
 
 When('I click the logout button', async ({ page, authPage }) => {
@@ -39,6 +39,7 @@ Then('I should be successfully registered', async ({ page }) => {
 
 Then('I should be successfully logged in', async ({ page }) => {
   await expect(page.locator('[data-testid="user-menu"]')).toBeVisible();
+  await page.locator('[data-testid="user-menu"]').click();
 });
 
 Then('I should see user-specific elements', async ({ page }) => {

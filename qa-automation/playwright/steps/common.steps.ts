@@ -32,7 +32,7 @@ Given('I have a registered user account', async ({ page }) => {
 
 Given('I am logged in as a valid user', async ({ page, authPage }) => {
   await page.goto('/login');
-  await authPage.login('e2e.test@cosmicoffeehouse.com', 'TestPassword123!');
+  await authPage.login('john@cosmic.com', 'Test123!@#');
 });
 
 Given('I browse the product catalog', async ({ page }) => {
