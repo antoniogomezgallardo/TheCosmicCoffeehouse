@@ -14,6 +14,7 @@ const RegisterPage: React.FC = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -28,6 +29,7 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setSuccess('');
 
     // Validation
     if (formData.password !== formData.confirmPassword) {
@@ -50,7 +52,8 @@ const RegisterPage: React.FC = () => {
         firstName: formData.firstName,
         lastName: formData.lastName
       });
-      navigate('/');
+      setSuccess('Registration successful! Redirecting to home...');
+      setTimeout(() => navigate('/'), 2000);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Registration failed';
       setError(errorMessage);
@@ -77,8 +80,14 @@ const RegisterPage: React.FC = () => {
           <div className="card-holo p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className="bg-cosmic-plasma bg-opacity-20 border border-cosmic-plasma rounded p-4">
+                <div className="bg-cosmic-plasma bg-opacity-20 border border-cosmic-plasma rounded p-4" data-testid="error-message">
                   <p className="text-cosmic-plasma text-sm">⚠️ {error}</p>
+                </div>
+              )}
+
+              {success && (
+                <div className="bg-cosmic-neonGreen bg-opacity-20 border border-cosmic-neonGreen rounded p-4" data-testid="success-message">
+                  <p className="text-cosmic-neonGreen text-sm">✅ {success}</p>
                 </div>
               )}
 
@@ -96,6 +105,7 @@ const RegisterPage: React.FC = () => {
                     onChange={handleChange}
                     className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
                     placeholder="John"
+                    data-testid="first-name-input"
                   />
                 </div>
                 <div>
@@ -111,6 +121,7 @@ const RegisterPage: React.FC = () => {
                     onChange={handleChange}
                     className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
                     placeholder="Cosmic"
+                    data-testid="last-name-input"
                   />
                 </div>
               </div>
@@ -128,6 +139,7 @@ const RegisterPage: React.FC = () => {
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
                   placeholder="cosmicwarrior"
+                  data-testid="username-input"
                 />
               </div>
 
@@ -144,6 +156,7 @@ const RegisterPage: React.FC = () => {
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
                   placeholder="john@cosmic.com"
+                  data-testid="email-input"
                 />
               </div>
 
@@ -160,6 +173,7 @@ const RegisterPage: React.FC = () => {
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
                   placeholder="Minimum 8 characters"
+                  data-testid="password-input"
                 />
               </div>
 
@@ -176,6 +190,7 @@ const RegisterPage: React.FC = () => {
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
                   placeholder="Confirm your password"
+                  data-testid="confirm-password-input"
                 />
               </div>
 
@@ -187,6 +202,7 @@ const RegisterPage: React.FC = () => {
                     ? 'bg-cosmic-common text-cosmic-common border border-cosmic-common opacity-50 cursor-not-allowed'
                     : 'btn-neon hover:shadow-lg'
                 }`}
+                data-testid="submit-button"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">

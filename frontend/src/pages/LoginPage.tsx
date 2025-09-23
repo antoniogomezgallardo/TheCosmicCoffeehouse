@@ -45,7 +45,7 @@ const LoginPage: React.FC = () => {
           <div className="card-holo p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className="bg-cosmic-plasma bg-opacity-20 border border-cosmic-plasma rounded p-4">
+                <div className="bg-cosmic-plasma bg-opacity-20 border border-cosmic-plasma rounded p-4" data-testid="error-message">
                   <p className="text-cosmic-plasma text-sm">⚠️ {error}</p>
                 </div>
               )}
@@ -62,6 +62,7 @@ const LoginPage: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
                   placeholder="your.email@cosmic.com"
+                  data-testid="email-input"
                 />
               </div>
 
@@ -77,6 +78,7 @@ const LoginPage: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
                   placeholder="Enter your cosmic password"
+                  data-testid="password-input"
                 />
               </div>
 
@@ -88,6 +90,7 @@ const LoginPage: React.FC = () => {
                     ? 'bg-cosmic-common text-cosmic-common border border-cosmic-common opacity-50 cursor-not-allowed'
                     : 'btn-plasma hover:shadow-lg'
                 }`}
+                data-testid="submit-button"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">
