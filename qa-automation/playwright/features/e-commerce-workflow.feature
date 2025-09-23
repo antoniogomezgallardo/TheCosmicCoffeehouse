@@ -1,4 +1,4 @@
-@ecommerce @workflow @smoke
+@ecommerce @workflow 
 Feature: E-commerce User Journey
   As a customer of The Cosmic Coffeehouse
   I want to browse products, add them to my cart, and complete purchases

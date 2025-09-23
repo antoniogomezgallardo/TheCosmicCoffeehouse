@@ -17,7 +17,10 @@ export abstract class BasePage {
    * Navigate to the page
    */
   async goto(): Promise<void> {
-    await this.page.goto(this.url);
+    // Handle relative URLs by prepending the base URL
+    const baseUrl = process.env.BASE_URL || 'http://localhost:5173';
+    const fullUrl = this.url.startsWith('http') ? this.url : `${baseUrl}${this.url}`;
+    await this.page.goto(fullUrl);
     await this.waitForPageLoad();
   }
 

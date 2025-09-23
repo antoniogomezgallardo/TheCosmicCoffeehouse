@@ -1,79 +1,40 @@
 module.exports = {
   default: {
-    // Feature files location
+    // Features location
     paths: ['features/**/*.feature'],
 
-    // Step definitions location
-    import: ['steps/**/*.ts'],
-
-    // Require TypeScript support
-    requireModule: ['ts-node/register'],
-
-    // Format options
-    format: [
-      'progress-bar',
-      'json:reports/cucumber-report.json',
-      'html:reports/cucumber-report.html',
-      '@cucumber/pretty-formatter'
+    // Step definitions location - this is key for VSCode navigation
+    require: [
+      'steps/**/*.ts',
+      'steps/**/*.js'
     ],
 
-    // Parallel execution
-    parallel: 2,
+    // TypeScript support
+    requireModule: ['ts-node/register'],
 
-    // Retry failed scenarios
-    retry: 1,
-
-    // Tags to run
-    tags: process.env.CUCUMBER_TAGS || 'not @skip',
-
-    // Timeout for steps
-    timeout: 30000,
-
-    // World parameters
-    worldParameters: {
-      browser: process.env.BROWSER || 'chromium',
-      headless: process.env.HEADLESS !== 'false',
-      baseUrl: process.env.BASE_URL || 'http://localhost:5174'
+    // Other configurations
+    format: ['html:reports/cucumber-report.html', 'json:reports/cucumber-report.json'],
+    formatOptions: {
+      snippetInterface: 'async-await'
     },
 
-    // Publish results
-    publish: false,
-
-    // Fail fast
-    failFast: process.env.FAIL_FAST === 'true'
-  },
-
-  // Profile for smoke tests
-  smoke: {
-    paths: ['features/**/*.feature'],
-    import: ['steps/**/*.ts'],
-    requireModule: ['ts-node/register'],
-    format: ['progress-bar', 'html:reports/smoke-report.html'],
-    tags: '@smoke',
-    timeout: 15000,
-    parallel: 1
-  },
-
-  // Profile for regression tests
-  regression: {
-    paths: ['features/**/*.feature'],
-    import: ['steps/**/*.ts'],
-    requireModule: ['ts-node/register'],
-    format: ['progress-bar', 'json:reports/regression-report.json'],
-    tags: '@regression',
-    timeout: 60000,
-    parallel: 3
-  },
-
-  // Profile for critical tests
-  critical: {
-    paths: ['features/**/*.feature'],
-    import: ['steps/**/*.ts'],
-    requireModule: ['ts-node/register'],
-    format: ['progress-bar', 'html:reports/critical-report.html'],
-    tags: '@critical',
-    timeout: 30000,
+    // Parallel execution
     parallel: 1,
-    retry: 2
+
+    // Retry configuration
+    retry: 0,
+
+    // Profile configurations
+    profiles: {
+      smoke: {
+        tags: '@smoke'
+      },
+      regression: {
+        tags: '@regression'
+      },
+      critical: {
+        tags: '@critical'
+      }
+    }
   }
 };

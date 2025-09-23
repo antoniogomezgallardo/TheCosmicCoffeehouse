@@ -1,6 +1,7 @@
 # Test artifacts
 test-results/
 reports/
+.features-gen/
 *.png
 *.webm
 *.zip

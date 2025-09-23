@@ -117,7 +117,7 @@ export class AuthPage extends BasePage {
     try {
       // Wait for either navigation (success) or error message
       await Promise.race([
-        this.page.waitForURL(url => url !== this.url, { timeout: 10000 }),
+        this.page.waitForURL(url => url.toString() !== this.url, { timeout: 10000 }),
         this.errorMessage.waitFor({ state: 'visible', timeout: 10000 })
       ]);
     } catch (error) {
@@ -130,7 +130,7 @@ export class AuthPage extends BasePage {
    */
   async verifyLoginSuccess(): Promise<void> {
     // Check if we're redirected away from login page
-    await this.page.waitForURL(url => !url.includes('/login'), { timeout: 10000 });
+    await this.page.waitForURL(url => !url.toString().includes('/login'), { timeout: 10000 });
 
     // Or check for user-specific elements
     const userIndicator = this.page.locator('button:has-text("Logout"), .user-menu, [data-testid="user-menu"]').first();
@@ -142,7 +142,7 @@ export class AuthPage extends BasePage {
    */
   async verifyRegistrationSuccess(): Promise<void> {
     // Check if redirected to login or dashboard
-    await this.page.waitForURL(url => !url.includes('/register'), { timeout: 10000 });
+    await this.page.waitForURL(url => !url.toString().includes('/register'), { timeout: 10000 });
 
     // Look for success indicators
     const successIndicators = this.page.locator(
@@ -215,7 +215,8 @@ export class AuthPage extends BasePage {
    * Note: Credentials are passed as parameters, not hardcoded
    */
   async quickLogin(email: string, userPassword: string): Promise<string> {
-    const response = await this.page.request.post('http://localhost:3001/api/auth/login', {
+    const baseUrl = process.env.API_BASE_URL || 'http://localhost:3001';
+    const response = await this.page.request.post(`${baseUrl}/api/auth/login`, {
       data: { email, password: userPassword }
     });
 
