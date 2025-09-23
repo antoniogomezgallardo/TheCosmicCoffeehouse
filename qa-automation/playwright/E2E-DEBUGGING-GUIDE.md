@@ -143,8 +143,24 @@ Debug tests directly in VSCode.
 
 When using VSCode with PowerShell terminal, use these commands instead of bash syntax:
 
+### **Quick Scenario Debugging Scripts**
 ```powershell
-# Debug specific test
+# Debug specific scenario (Inspector mode)
+npm run debug:scenario "Successful user registration"
+
+# Debug scenario with visible browser
+npm run debug:scenario:headed "Successful user registration"
+
+# Debug scenario with UI mode (BEST for exploration)
+npm run debug:scenario:ui "Successful user registration"
+
+# Debug scenario with trace recording
+npm run debug:scenario:trace "Successful user registration"
+```
+
+### **Traditional Commands**
+```powershell
+# Debug specific test (old way)
 npm run test:debug -- --grep "Successful user registration"
 
 # Run with trace

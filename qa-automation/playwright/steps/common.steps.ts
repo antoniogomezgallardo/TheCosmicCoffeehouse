@@ -27,12 +27,14 @@ Given('I navigate to the login page', async ({ page }) => {
 Given('I have a registered user account', async ({ page }) => {
   // This would typically ensure a user exists in the database
   // For now, we'll assume the test user exists
-  console.log('Assuming test user exists: e2e.test@cosmicoffeehouse.com');
+  console.log('Assuming test user exists: john@cosmic.com');
 });
 
 Given('I am logged in as a valid user', async ({ page, authPage }) => {
   await page.goto('/login');
   await authPage.login('john@cosmic.com', 'Test123!@#');
+  await expect(page.locator('[data-testid="user-menu"]')).toBeVisible();
+  await page.locator('[data-testid="user-menu"]').click();
 });
 
 Given('I browse the product catalog', async ({ page }) => {
@@ -79,11 +81,6 @@ Then('the page title should contain {string}', async ({ page }, title: string) =
 Then('I should be redirected to login page', async ({ page }) => {
   await page.waitForURL('**/login', { timeout: 10000 });
   expect(page.url()).toContain('/login');
-});
-
-Then('I should be redirected to the dashboard or login page', async ({ page }) => {
-  await page.waitForURL(url => url.toString().includes('/dashboard') || url.toString().includes('/login'), { timeout: 10000 });
-  expect(page.url()).toMatch(/\/(dashboard|login)/);
 });
 
 Then('I should be redirected to the home page', async ({ page }) => {
