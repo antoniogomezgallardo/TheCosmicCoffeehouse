@@ -14,30 +14,165 @@ const RegisterPage: React.FC = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
+  const [touchedFields, setTouchedFields] = useState<{[key: string]: boolean}>({});
+  const [duplicateEmailError, setDuplicateEmailError] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    // Clear duplicate email error when user changes email
+    if (name === 'email' && duplicateEmailError) {
+      setDuplicateEmailError(false);
+    }
+
+    // Clear validation error for this field when user starts typing
+    if (validationErrors[name]) {
+      setValidationErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    setTouchedFields(prev => ({ ...prev, [name]: true }));
+
+    // Validate single field on blur
+    validateSingleField(name);
+  };
+
+  const validateSingleField = (fieldName: string) => {
+    const errors: {[key: string]: string} = {};
+
+    switch(fieldName) {
+      case 'firstName':
+        if (!formData.firstName.trim()) {
+          errors.firstName = 'First name is required';
+        }
+        break;
+      case 'lastName':
+        if (!formData.lastName.trim()) {
+          errors.lastName = 'Last name is required';
+        }
+        break;
+      case 'username':
+        if (!formData.username.trim()) {
+          errors.username = 'Username is required';
+        }
+        break;
+      case 'email':
+        if (!formData.email.trim()) {
+          errors.email = 'Email is required';
+        } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(formData.email)) {
+          errors.email = 'Please enter a valid email address';
+        }
+        break;
+      case 'password':
+        if (!formData.password) {
+          errors.password = 'Password is required';
+        } else if (formData.password.length < 8) {
+          errors.password = 'Password must be at least 8 characters long';
+        }
+        break;
+      case 'confirmPassword':
+        if (!formData.confirmPassword) {
+          errors.confirmPassword = 'Password confirmation is required';
+        } else if (formData.password && formData.confirmPassword !== formData.password) {
+          errors.confirmPassword = 'Passwords do not match';
+        }
+        break;
+    }
+
+    if (errors[fieldName]) {
+      setValidationErrors(prev => ({
+        ...prev,
+        [fieldName]: errors[fieldName]
+      }));
+    } else {
+      // Clear error if field is now valid
+      setValidationErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[fieldName];
+        return newErrors;
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+
+    // Required field validation
+    if (!formData.firstName.trim()) {
+      errors.firstName = 'First name is required';
+    }
+    if (!formData.lastName.trim()) {
+      errors.lastName = 'Last name is required';
+    }
+    if (!formData.username.trim()) {
+      errors.username = 'Username is required';
+    }
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required';
+    }
+    if (!formData.password) {
+      errors.password = 'Password is required';
+    }
+    if (!formData.confirmPassword) {
+      errors.confirmPassword = 'Password confirmation is required';
+    }
+
+    // Email format validation
+    if (formData.email && !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+
+    // Password length validation
+    if (formData.password && formData.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters long';
+    }
+
+    // Password match validation
+    if (formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const getFieldClasses = (fieldName: string) => {
+    const baseClasses = "w-full px-3 py-2 bg-cosmic-space rounded-cyber focus:outline-none text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50 transition-colors";
+    const hasError = validationErrors[fieldName] && (attemptedSubmit || touchedFields[fieldName]);
+
+    if (hasError) {
+      return `${baseClasses} border-2 border-cosmic-plasma focus:border-cosmic-plasma validation-error`;
+    } else {
+      return `${baseClasses} border border-cosmic-cyan focus:border-cosmic-energy`;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setAttemptedSubmit(true);
     setIsLoading(true);
     setError('');
+    setSuccess('');
+    setDuplicateEmailError(false);
 
-    // Validation
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      setIsLoading(false);
-      return;
-    }
-
-    if (formData.password.length < 8) {
-      setError('Password must be at least 8 characters long');
+    // Validate the form
+    if (!validateForm()) {
+      setError('Please fill in all required fields correctly');
       setIsLoading(false);
       return;
     }
@@ -50,10 +185,21 @@ const RegisterPage: React.FC = () => {
         firstName: formData.firstName,
         lastName: formData.lastName
       });
-      navigate('/');
+      setSuccess('Registration successful! Redirecting to home...');
+      setTimeout(() => navigate('/'), 2000);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Registration failed';
-      setError(errorMessage);
+
+      // Check if it's a duplicate email error
+      if (errorMessage.toLowerCase().includes('already exists') ||
+          errorMessage.toLowerCase().includes('duplicate') ||
+          errorMessage.toLowerCase().includes('already registered') ||
+          errorMessage.toLowerCase().includes('email is taken')) {
+        setDuplicateEmailError(true);
+        setError('An account with this email already exists. Please use a different email or login to your existing account.');
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -77,8 +223,22 @@ const RegisterPage: React.FC = () => {
           <div className="card-holo p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className="bg-cosmic-plasma bg-opacity-20 border border-cosmic-plasma rounded p-4">
+                <div
+                  className="bg-cosmic-plasma bg-opacity-20 border border-cosmic-plasma rounded p-4"
+                  data-testid={duplicateEmailError ? "duplicate-email-error" : "error-message"}
+                >
                   <p className="text-cosmic-plasma text-sm">⚠️ {error}</p>
+                  {duplicateEmailError && (
+                    <p className="text-cosmic-plasma text-xs mt-2">
+                      <a href="/login" className="underline hover:text-cosmic-energy">Click here to login</a> to your existing account
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {success && (
+                <div className="bg-cosmic-neonGreen bg-opacity-20 border border-cosmic-neonGreen rounded p-4" data-testid="success-message">
+                  <p className="text-cosmic-neonGreen text-sm">✅ {success}</p>
                 </div>
               )}
 
@@ -94,9 +254,14 @@ const RegisterPage: React.FC = () => {
                     required
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
+                    onBlur={handleBlur}
+                    className={getFieldClasses('firstName')}
                     placeholder="John"
+                    data-testid="first-name-input"
                   />
+                  {validationErrors.firstName && (attemptedSubmit || touchedFields.firstName) && (
+                    <p className="text-cosmic-plasma text-xs mt-1 validation-error">{validationErrors.firstName}</p>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="lastName" className="block text-cosmic-cyan text-sm font-bold mb-2">
@@ -109,9 +274,14 @@ const RegisterPage: React.FC = () => {
                     required
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
+                    onBlur={handleBlur}
+                    className={getFieldClasses('lastName')}
                     placeholder="Cosmic"
+                    data-testid="last-name-input"
                   />
+                  {validationErrors.lastName && (attemptedSubmit || touchedFields.lastName) && (
+                    <p className="text-cosmic-plasma text-xs mt-1 validation-error">{validationErrors.lastName}</p>
+                  )}
                 </div>
               </div>
 
@@ -126,9 +296,14 @@ const RegisterPage: React.FC = () => {
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
+                  onBlur={handleBlur}
+                  className={getFieldClasses('username')}
                   placeholder="cosmicwarrior"
+                  data-testid="username-input"
                 />
+                {validationErrors.username && (attemptedSubmit || touchedFields.username) && (
+                  <p className="text-cosmic-plasma text-xs mt-1 validation-error">{validationErrors.username}</p>
+                )}
               </div>
 
               <div>
@@ -142,9 +317,14 @@ const RegisterPage: React.FC = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
+                  onBlur={handleBlur}
+                  className={getFieldClasses('email')}
                   placeholder="john@cosmic.com"
+                  data-testid="email-input"
                 />
+                {validationErrors.email && (attemptedSubmit || touchedFields.email) && (
+                  <p className="text-cosmic-plasma text-xs mt-1 validation-error">{validationErrors.email}</p>
+                )}
               </div>
 
               <div>
@@ -158,9 +338,14 @@ const RegisterPage: React.FC = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
+                  onBlur={handleBlur}
+                  className={getFieldClasses('password')}
                   placeholder="Minimum 8 characters"
+                  data-testid="password-input"
                 />
+                {validationErrors.password && (attemptedSubmit || touchedFields.password) && (
+                  <p className="text-cosmic-plasma text-xs mt-1 validation-error">{validationErrors.password}</p>
+                )}
               </div>
 
               <div>
@@ -174,9 +359,14 @@ const RegisterPage: React.FC = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-cosmic-space border border-cosmic-cyan rounded-cyber focus:outline-none focus:border-cosmic-energy text-cosmic-cyan placeholder-cosmic-cyan placeholder-opacity-50"
+                  onBlur={handleBlur}
+                  className={getFieldClasses('confirmPassword')}
                   placeholder="Confirm your password"
+                  data-testid="confirm-password-input"
                 />
+                {validationErrors.confirmPassword && (attemptedSubmit || touchedFields.confirmPassword) && (
+                  <p className="text-cosmic-plasma text-xs mt-1 validation-error">{validationErrors.confirmPassword}</p>
+                )}
               </div>
 
               <button
@@ -187,6 +377,7 @@ const RegisterPage: React.FC = () => {
                     ? 'bg-cosmic-common text-cosmic-common border border-cosmic-common opacity-50 cursor-not-allowed'
                     : 'btn-neon hover:shadow-lg'
                 }`}
+                data-testid="submit-button"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">

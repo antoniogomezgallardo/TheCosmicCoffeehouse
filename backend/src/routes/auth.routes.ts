@@ -288,4 +288,117 @@ router.get('/logout', (_req: Request, res: Response) => {
   });
 });
 
+/**
+ * @swagger
+ * /api/auth/user/{email}:
+ *   delete:
+ *     summary: Delete user account (Test utility)
+ *     description: Deletes a user account by email - intended for test cleanup purposes
+ *     tags:
+ *       - Authentication
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: email
+ *         description: Email address of the user to delete
+ *         example: 'bdd.test@cosmicoffeehouse.com'
+ *     responses:
+ *       200:
+ *         description: User successfully deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 'User deleted successfully'
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: 'User not found'
+ *       403:
+ *         description: Forbidden - Not a test user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: 'Only test users can be deleted via this endpoint'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.delete('/user/:email', async (req: Request, res: Response) => {
+  try {
+    const { email } = req.params;
+
+    // Security check: Only allow deletion of test users
+    const testEmailPatterns = [
+      /^.*\.test@.*$/,           // *.test@*
+      /^test\..*@.*$/,           // test.*@*
+      /^bdd\.test@.*$/,          // bdd.test@*
+      /^e2e\.test@.*$/,          // e2e.test@*
+      /^.*@.*\.test$/,           // *@*.test
+      /^.*@test\..*$/            // *@test.*
+    ];
+
+    const isTestUser = testEmailPatterns.some(pattern => pattern.test(email));
+
+    if (!isTestUser) {
+      return res.status(403).json({
+        success: false,
+        message: 'Only test users can be deleted via this endpoint'
+      });
+    }
+
+    // Find and delete the user
+    const deletedUser = await User.findOneAndDelete({ email });
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: 'User deleted successfully',
+      data: {
+        email: deletedUser.email,
+        username: deletedUser.username
+      }
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 export default router;

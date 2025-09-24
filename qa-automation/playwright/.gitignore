@@ -1,0 +1,44 @@
+# Test artifacts
+test-results/
+reports/
+.features-gen/
+*.png
+*.webm
+*.zip
+
+# Screenshots (except example ones in docs)
+screenshots/
+!docs/screenshots/
+
+# Videos and traces
+videos/
+traces/
+
+# Playwright cache
+.playwright/
+
+# Coverage
+coverage/
+
+# Environment files
+.env.local
+.env.test
+
+# Node modules (if any local packages)
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp

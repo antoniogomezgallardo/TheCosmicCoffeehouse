@@ -10,10 +10,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen bg-black">
       <Header />
-      <main className="pt-16">
+      <main className="pt-16" data-testid="main-content">
         {children}
       </main>
-      <footer className="bg-cosmic-space bg-opacity-50 border-t border-cosmic-cyan mt-20">
+      <footer className="bg-cosmic-space bg-opacity-50 border-t border-cosmic-cyan mt-20" data-testid="footer">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="text-center text-cosmic-cyan">
             <p className="text-cyber mb-2">The Cosmic Coffeehouse</p>

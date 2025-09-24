@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
     <Layout>
       <div className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative py-20 px-4">
+        <section data-testid="hero-section" className="relative py-20 px-4">
           <div className="max-w-7xl mx-auto text-center">
             <h1 className="text-cyber text-5xl md:text-7xl mb-6 animate-glow">
               Welcome to The Cosmic Coffeehouse
@@ -45,7 +45,7 @@ const HomePage: React.FC = () => {
               and futuristic brewing machines from across the galaxy.
             </p>
             <div className="space-x-4">
-              <Link to="/capsules" className="btn-plasma px-8 py-4 text-lg">
+              <Link to="/capsules" data-testid="shop-now-button" className="btn-plasma px-8 py-4 text-lg">
                 Explore Capsules
               </Link>
               <Link to="/machines" className="btn-neon px-8 py-4 text-lg">
@@ -56,7 +56,7 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Featured Products */}
-        <section className="py-16 px-4">
+        <section data-testid="featured-products" className="py-16 px-4">
           <div className="max-w-7xl mx-auto">
             {isLoading ? (
               <div className="text-center">
@@ -67,20 +67,24 @@ const HomePage: React.FC = () => {
               <div className="space-y-16">
                 {/* Featured Capsules */}
                 {featuredProducts.capsules && featuredProducts.capsules.length > 0 && (
-                  <ProductList
-                    products={featuredProducts.capsules}
-                    type="capsule"
-                    title="✨ Featured Superpower Capsules"
-                  />
+                  <div data-testid="featured-capsules">
+                    <ProductList
+                      products={featuredProducts.capsules}
+                      type="capsule"
+                      title="✨ Featured Superpower Capsules"
+                    />
+                  </div>
                 )}
 
                 {/* Featured Machines */}
                 {featuredProducts.machines && featuredProducts.machines.length > 0 && (
-                  <ProductList
-                    products={featuredProducts.machines}
-                    type="machine"
-                    title="🚀 Featured Brewing Machines"
-                  />
+                  <div data-testid="featured-machines">
+                    <ProductList
+                      products={featuredProducts.machines}
+                      type="machine"
+                      title="🚀 Featured Brewing Machines"
+                    />
+                  </div>
                 )}
               </div>
             ) : (

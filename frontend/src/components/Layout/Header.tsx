@@ -15,13 +15,13 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-cyber text-cosmic-cyan text-glow">
+            <Link to="/" data-testid="logo-link" className="text-2xl font-cyber text-cosmic-cyan text-glow">
               ☕ The Cosmic Coffeehouse
             </Link>
           </div>
 
           {/* Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-8" data-testid="navigation-menu">
             <Link
               to="/"
               className="text-cosmic-cyan hover:text-cosmic-neonGreen transition-colors"
@@ -48,12 +48,13 @@ const Header: React.FC = () => {
             <button
               onClick={openCart}
               className="relative p-2 text-cosmic-cyan hover:text-cosmic-neonGreen transition-colors"
+              data-testid="cart-button"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6.5M7 13l-1.5-6.5m0 0L5.4 5M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6" />
               </svg>
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-cosmic-plasma text-cosmic-void text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 bg-cosmic-plasma text-cosmic-void text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold" data-testid="cart-count">
                   {itemCount}
                 </span>
               )}
@@ -65,6 +66,7 @@ const Header: React.FC = () => {
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center space-x-2 text-cosmic-cyan hover:text-cosmic-neonGreen transition-colors"
+                  data-testid="user-menu"
                 >
                   <span className="text-sm">
                     {user.firstName}
@@ -80,15 +82,16 @@ const Header: React.FC = () => {
                 {showUserMenu && (
                   <div className="absolute right-0 mt-2 w-48 card-holo">
                     <div className="py-1">
-                      <Link to="/profile" className="block px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen">
+                      <Link to="/profile" className="block px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen" data-testid="user-profile">
                         Profile
                       </Link>
-                      <Link to="/orders" className="block px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen">
+                      <Link to="/orders" className="block px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen" data-testid="order-history">
                         Orders
                       </Link>
                       <button
                         onClick={logout}
                         className="block w-full text-left px-4 py-2 text-sm text-cosmic-cyan hover:text-cosmic-neonGreen"
+                        data-testid="logout-button"
                       >
                         Logout
                       </button>
@@ -97,10 +100,11 @@ const Header: React.FC = () => {
                 )}
               </div>
             ) : (
-              <div className="space-x-2">
+              <div className="space-x-2" data-testid="auth-links">
                 <button
                   onClick={() => navigate('/login')}
                   className="btn-neon px-4 py-2"
+                  data-testid="login-button"
                 >
                   Login
                 </button>
