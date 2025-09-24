@@ -1,0 +1,477 @@
+{
+  "consumer": {
+    "name": "CosmicCoffeehouse-Frontend"
+  },
+  "interactions": [
+    {
+      "description": "a login request with invalid credentials",
+      "providerState": "a user with valid credentials exists",
+      "request": {
+        "body": {
+          "email": "test@cosmic.com",
+          "password": "WrongPassword123!"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      "response": {
+        "body": {
+          "error": "UNAUTHORIZED",
+          "message": "Invalid credentials",
+          "success": false
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.message": {
+            "match": "type"
+          }
+        },
+        "status": 401
+      }
+    },
+    {
+      "description": "a logout request from authenticated user",
+      "providerState": "user is logged in with valid token",
+      "request": {
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwN2YxZjc3YmNmODZjZDc5OTQzOTAxMSIsImVtYWlsIjoidGVzdEBjb3NtaWMuY29tIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/api/auth/logout"
+      },
+      "response": {
+        "body": {
+          "message": "Logged out successfully",
+          "success": true
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request for all capsules",
+      "providerState": "products exist in the database",
+      "request": {
+        "method": "GET",
+        "path": "/api/products/capsules"
+      },
+      "response": {
+        "body": {
+          "data": {
+            "capsules": [
+              {
+                "category": "capsule",
+                "createdAt": "2015-08-06T16:53:10.123+01:00",
+                "description": "A powerful blend for morning energy",
+                "flavorProfile": "Bold and Rich",
+                "id": "507f1f77bcf86cd799439011",
+                "imageUrl": "https://cosmic.com/images/quantum-roast.jpg",
+                "intensity": 8,
+                "isActive": true,
+                "name": "Quantum Roast",
+                "powerBoost": 75,
+                "price": 12.99,
+                "stock": 100,
+                "updatedAt": "2015-08-06T16:53:10.123+01:00"
+              }
+            ],
+            "limit": 10,
+            "page": 1,
+            "total": 10
+          },
+          "message": "Capsules retrieved successfully",
+          "success": true
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.data.capsules": {
+            "match": "type",
+            "min": 1
+          },
+          "$.body.data.capsules[*].category": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].createdAt": {
+            "match": "regex",
+            "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d(:?[0-5]\\d)?|Z)$"
+          },
+          "$.body.data.capsules[*].description": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].flavorProfile": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].id": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].imageUrl": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].intensity": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].isActive": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].name": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].powerBoost": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].price": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].stock": {
+            "match": "type"
+          },
+          "$.body.data.capsules[*].updatedAt": {
+            "match": "regex",
+            "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d(:?[0-5]\\d)?|Z)$"
+          },
+          "$.body.data.limit": {
+            "match": "type"
+          },
+          "$.body.data.page": {
+            "match": "type"
+          },
+          "$.body.data.total": {
+            "match": "type"
+          }
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request for machines in price range",
+      "providerState": "products exist in the database",
+      "request": {
+        "method": "GET",
+        "path": "/api/products/machines",
+        "query": "maxPrice=1500&minPrice=500"
+      },
+      "response": {
+        "body": {
+          "data": {
+            "limit": 10,
+            "machines": [
+              {
+                "id": "507f1f77bcf86cd799440001",
+                "model": "QBP-2024",
+                "name": "QuantumBrew Pro",
+                "price": 1299.99,
+                "stock": 8
+              }
+            ],
+            "page": 1,
+            "total": 2
+          },
+          "message": "Machines retrieved successfully",
+          "success": true
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.data.limit": {
+            "match": "type"
+          },
+          "$.body.data.machines": {
+            "match": "type",
+            "min": 1
+          },
+          "$.body.data.machines[*].id": {
+            "match": "type"
+          },
+          "$.body.data.machines[*].model": {
+            "match": "type"
+          },
+          "$.body.data.machines[*].name": {
+            "match": "type"
+          },
+          "$.body.data.machines[*].price": {
+            "match": "type"
+          },
+          "$.body.data.machines[*].stock": {
+            "match": "type"
+          },
+          "$.body.data.page": {
+            "match": "type"
+          },
+          "$.body.data.total": {
+            "match": "type"
+          }
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request for non-existent capsule",
+      "providerState": "product does not exist",
+      "request": {
+        "method": "GET",
+        "path": "/api/products/capsules/507f1f77bcf86cd799439999"
+      },
+      "response": {
+        "body": {
+          "error": "NOT_FOUND",
+          "message": "Capsule not found",
+          "success": false
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.message": {
+            "match": "type"
+          }
+        },
+        "status": 404
+      }
+    },
+    {
+      "description": "a request for out of stock product",
+      "providerState": "product is out of stock",
+      "request": {
+        "method": "GET",
+        "path": "/api/products/capsules/507f1f77bcf86cd799439011"
+      },
+      "response": {
+        "body": {
+          "data": {
+            "capsule": {
+              "availability": "out_of_stock",
+              "id": "507f1f77bcf86cd799439011",
+              "isActive": true,
+              "name": "Limited Edition Cosmic Blend",
+              "nextRestockDate": "2015-08-06T16:53:10.123+01:00",
+              "notifyWhenAvailable": true,
+              "stock": 0
+            }
+          },
+          "message": "Product retrieved but out of stock",
+          "success": true
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.data.capsule.name": {
+            "match": "type"
+          },
+          "$.body.data.capsule.nextRestockDate": {
+            "match": "regex",
+            "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d(:?[0-5]\\d)?|Z)$"
+          }
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request when no capsules exist",
+      "providerState": "no products exist",
+      "request": {
+        "method": "GET",
+        "path": "/api/products/capsules"
+      },
+      "response": {
+        "body": {
+          "data": {
+            "capsules": [],
+            "limit": 10,
+            "page": 1,
+            "total": 0
+          },
+          "message": "No capsules found",
+          "success": true
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a token verification request",
+      "providerState": "user is logged in with valid token",
+      "request": {
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwN2YxZjc3YmNmODZjZDc5OTQzOTAxMSIsImVtYWlsIjoidGVzdEBjb3NtaWMuY29tIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        },
+        "method": "GET",
+        "path": "/api/auth/verify"
+      },
+      "response": {
+        "body": {
+          "data": {
+            "expiresAt": "2015-08-06T16:53:10.123+01:00",
+            "user": {
+              "email": "test@cosmic.com",
+              "id": "507f1f77bcf86cd799439011",
+              "username": "cosmicuser"
+            },
+            "valid": true
+          },
+          "message": "Token is valid",
+          "success": true
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.data.expiresAt": {
+            "match": "regex",
+            "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d(:?[0-5]\\d)?|Z)$"
+          },
+          "$.body.data.user.email": {
+            "match": "type"
+          },
+          "$.body.data.user.id": {
+            "match": "type"
+          },
+          "$.body.data.user.username": {
+            "match": "type"
+          }
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a valid registration request",
+      "providerState": "user does not exist",
+      "request": {
+        "body": {
+          "email": "test@cosmic.com",
+          "firstName": "John",
+          "lastName": "Doe",
+          "password": "SecurePass123!",
+          "username": "cosmicuser"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/api/auth/register"
+      },
+      "response": {
+        "body": {
+          "data": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwN2YxZjc3YmNmODZjZDc5OTQzOTAxMSIsImVtYWlsIjoidGVzdEBjb3NtaWMuY29tIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "user": {
+              "createdAt": "2015-08-06T16:53:10.123+01:00",
+              "email": "test@cosmic.com",
+              "firstName": "John",
+              "id": "507f1f77bcf86cd799439011",
+              "isActive": true,
+              "lastName": "Doe",
+              "powerLevel": 0,
+              "updatedAt": "2015-08-06T16:53:10.123+01:00",
+              "username": "cosmicuser"
+            }
+          },
+          "message": "User registered successfully",
+          "success": true
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.data.token": {
+            "match": "regex",
+            "regex": "^[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+$"
+          },
+          "$.body.data.user.createdAt": {
+            "match": "regex",
+            "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d(:?[0-5]\\d)?|Z)$"
+          },
+          "$.body.data.user.id": {
+            "match": "type"
+          },
+          "$.body.data.user.powerLevel": {
+            "match": "type"
+          },
+          "$.body.data.user.updatedAt": {
+            "match": "regex",
+            "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d(:?[0-5]\\d)?|Z)$"
+          }
+        },
+        "status": 201
+      }
+    },
+    {
+      "description": "an invalid registration request",
+      "providerState": "user does not exist",
+      "request": {
+        "body": {
+          "email": "not-an-email",
+          "firstName": "",
+          "lastName": "",
+          "password": "123",
+          "username": ""
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/api/auth/register"
+      },
+      "response": {
+        "body": {
+          "error": "VALIDATION_ERROR",
+          "errors": [
+            {
+              "field": "email",
+              "message": "Invalid email format"
+            }
+          ],
+          "message": "Validation failed",
+          "success": false
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.errors": {
+            "match": "type",
+            "min": 1
+          },
+          "$.body.errors[*].field": {
+            "match": "type"
+          },
+          "$.body.errors[*].message": {
+            "match": "type"
+          },
+          "$.body.message": {
+            "match": "type"
+          }
+        },
+        "status": 400
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "13.2.0"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  },
+  "provider": {
+    "name": "CosmicCoffeehouse-Backend"
+  }
+}
