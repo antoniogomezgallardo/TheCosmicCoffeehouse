@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "name": "the-cosmic-coffeehouse",
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/dist"
+      }
+    },
+    {
+      "src": "backend/src/server.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/src/server.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "MONGODB_URI": "@mongodb_uri",
+    "JWT_SECRET": "@jwt_secret",
+    "JWT_REFRESH_SECRET": "@jwt_refresh_secret",
+    "JWT_EXPIRES_IN": "15m",
+    "JWT_REFRESH_EXPIRES_IN": "7d"
+  },
+  "build": {
+    "env": {
+      "NODE_VERSION": "18"
+    }
+  },
+  "regions": ["iad1"],
+  "github": {
+    "enabled": true,
+    "autoAlias": true,
+    "silent": false
+  }
+}
