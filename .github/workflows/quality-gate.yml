@@ -189,8 +189,8 @@ jobs:
 
       - name: Docker build verification
         run: |
-          docker-compose build --no-cache
-          docker-compose config
+          docker compose build --no-cache
+          docker compose config
 
   performance-baseline:
     name: Performance Baseline
