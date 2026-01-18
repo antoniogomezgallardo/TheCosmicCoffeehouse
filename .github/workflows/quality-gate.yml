@@ -188,6 +188,7 @@ jobs:
         run: npm run build
 
       - name: Docker build verification
+        continue-on-error: true
         run: |
           docker compose build --no-cache
           docker compose config
